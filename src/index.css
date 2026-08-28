@@ -31,6 +31,22 @@ img {
   -webkit-user-drag: none;
 }
 
+/* iOS Safari auto-zooms the whole page when a focused input/textarea/select
+   has a computed font-size under 16px. The site's form fields use smaller
+   sizes (text-[13px] etc.) to match the design, which triggers this on
+   phones. Forcing 16px on mobile stops the zoom; the fields end up very
+   slightly larger there than the desktop design, which is the standard
+   trade-off every site with small-text inputs makes. Desktop/trackpad
+   browsers don't have this zoom behavior, so this only applies below the
+   md breakpoint. */
+@media (max-width: 767px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
 /* Kill the browser's default focus ring/box-shadow on form fields — the
    site already shows focus via its own border-color change (see
    `inputClass` in GateOverlay.jsx, Contact.jsx, etc.), so the native blue
