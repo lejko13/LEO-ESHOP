@@ -129,6 +129,9 @@ export const getProductById = (id) => products.find((p) => p.id === id);
 export const getProductsByCategory = (category) =>
   products.filter((p) => p.category === category);
 
-export const getAllColors = () => [
-  ...new Set(products.flatMap((p) => p.colors)),
+// Pass a pre-filtered list (e.g. one category's products) to scope the
+// color options to what's actually available there. Defaults to every
+// product for the global filter.
+export const getAllColors = (productList = products) => [
+  ...new Set(productList.flatMap((p) => p.colors)),
 ];

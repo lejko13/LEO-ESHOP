@@ -61,6 +61,7 @@ export const translations = {
       categories: {
         all: "All",
         hoodies: "Hoodies",
+        tracksuit: "Tracksuits",
         "t-shirts": "T-Shirts",
         pants: "Pants",
         jackets: "Jackets",
@@ -206,6 +207,10 @@ export const translations = {
       noOrders: "No orders yet.",
       loadError: "Couldn't load orders.",
     },
+    seo: {
+      categoryTitle: "{category} — LEO FUDALY",
+      categoryDescription: "Shop {category} from LEO FUDALY — a minimal fashion label.",
+    },
   },
   sk: {
     nav: {
@@ -262,6 +267,7 @@ export const translations = {
       categories: {
         all: "Všetko",
         hoodies: "Mikiny",
+        tracksuit: "Tepláky",
         "t-shirts": "Tričká",
         pants: "Nohavice",
         jackets: "Bundy",
@@ -406,6 +412,10 @@ export const translations = {
       logout: "Odhlásiť sa",
       noOrders: "Zatiaľ žiadne objednávky.",
       loadError: "Objednávky sa nepodarilo načítať.",
+    },
+    seo: {
+      categoryTitle: "{category} — LEO FUDALY",
+      categoryDescription: "{category} od LEO FUDALY — minimalistická módna značka.",
     },
   },
 };

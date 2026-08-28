@@ -16,7 +16,7 @@ const camo_sweatpants = {
     en: "Wide-leg sweatpants in a classic woodland camo print, cut to match the Camo Hoodie.",
     sk: "Tepláky so širokou nohavicou s klasickou maskáčovou potlačou, strihom ladiace s maskáčovou mikinou.",
   },
-  category: "pants",
+  category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Camo"],
   showSwatches: false,

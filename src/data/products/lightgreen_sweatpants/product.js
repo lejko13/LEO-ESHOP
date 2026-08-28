@@ -16,7 +16,7 @@ const lightgreen_sweatpants = {
     en: "Wide-leg sweatpants in heavyweight cotton fleece, cut to match the Essential Hoodie.",
     sk: "Tepláky so širokou nohavicou z ťažkej bavlnenej teplákoviny, strihom ladiace so Základnou mikinou.",
   },
-  category: "pants",
+  category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Light Green"],
   showSwatches: false,

@@ -17,7 +17,7 @@ const zip_sweatpants = {
     en: "Wide-leg sweatpants finished with full-length zips down both legs.",
     sk: "Tepláky so širokou nohavicou dokončené zipsami v celej dĺžke oboch nohavíc.",
   },
-  category: "pants",
+  category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Black"],
   showSwatches: false,

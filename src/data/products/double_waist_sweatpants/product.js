@@ -16,7 +16,7 @@ const double_waist_sweatpants = {
     en: "Wide-leg sweatpants with a layered double waistband — a black outer band over a camo inner layer.",
     sk: "Tepláky so širokou nohavicou s vrstveným dvojitým pásom — čierny vrchný pás nad maskáčovou vnútornou vrstvou.",
   },
-  category: "pants",
+  category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Black"],
   showSwatches: false,

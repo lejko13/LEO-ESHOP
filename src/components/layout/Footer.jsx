@@ -9,6 +9,10 @@ const Footer = () => {
   // destination footer.contact used to point to) rather than duplicating it.
   const links = [
     { label: t("nav.shop"), to: "/produkty" },
+    { label: t("filters.categories.hoodies"), to: "/produkty/hoodie" },
+    { label: t("filters.categories.tracksuit"), to: "/produkty/tracksuit" },
+    { label: t("filters.categories.pants"), to: "/produkty/pants" },
+    { label: t("filters.categories.jackets"), to: "/produkty/jacket" },
     { label: t("nav.materials"), to: "/material" },
     { label: t("nav.accessories"), to: "/doplnky" },
     { label: t("nav.about"), to: "/about" },

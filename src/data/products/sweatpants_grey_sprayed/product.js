@@ -15,7 +15,7 @@ const sweatpants_grey_sprayed = {
     en: "Wide-leg sweatpants finished with a hand-sprayed, paint-splatter print, cut to match the Sprayed Hoodie.",
     sk: "Tepláky so širokou nohavicou dokončené ručne striekanou potlačou, strihom ladiace s postriekanou mikinou.",
   },
-  category: "pants",
+  category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Grey"],
   showSwatches: false,

@@ -7,18 +7,22 @@ import { useLanguage } from "../../hooks/useLanguage.js";
 import { useGridDensity } from "../../hooks/useGridDensity.js";
 
 const categoryValues = [
-  "all", "hoodies", "t-shirts", "pants", "jackets", "footwear", "accessories",
+  "all", "hoodies", "tracksuit", "pants", "t-shirts", "jackets", "footwear", "accessories",
 ];
 
-// Shared by Home ("/") and Shop ("/produkty") so both render the exact same
-// catalog UI. Grid density itself now comes from GridDensityContext since
-// the toggle for it lives in the desktop navbar, not in this component.
+// Shared by Home ("/"), Shop ("/produkty"), and the dedicated per-category
+// pages (/produkty/hoodie, /produkty/tracksuit, /produkty/pants,
+// /produkty/jacket) so they all render the exact same catalog UI. Grid
+// density itself now comes from GridDensityContext since the toggle for it
+// lives in the desktop navbar, not in this component.
 //
-// `scope="accessories"` (used by the Doplnky page) pre-filters to just the
-// accessories category and drops the category + color filter sections —
-// "different filter, different products" for that page, without a second
-// near-duplicate catalog component.
-const CatalogView = ({ scope = "all" }) => {
+// `scope` pre-filters to a single category (any value in `categoryValues`
+// except "all") and drops the category filter section — the category is
+// already implied by the page/URL, so re-offering it in the filter panel
+// would be redundant. `hideColorFilter` additionally drops the color
+// section too — used by the Doplnky (accessories) page, where "different
+// filter, different products" made more sense than a color picker.
+const CatalogView = ({ scope = "all", hideColorFilter = false }) => {
   const { t } = useLanguage();
   const { density, cycleDensity } = useGridDensity();
   const [filterOpen, setFilterOpen] = useState(false);
@@ -28,17 +32,14 @@ const CatalogView = ({ scope = "all" }) => {
 
   const showCategoryFilter = scope === "all";
   const baseProducts = useMemo(
-    () =>
-      scope === "accessories"
-        ? products.filter((p) => p.category === "accessories")
-        : products,
+    () => (scope === "all" ? products : products.filter((p) => p.category === scope)),
     [scope]
   );
-  const showColorFilter = scope === "all";
+  const showColorFilter = !hideColorFilter;
 
   const allColors = useMemo(
-    () => (showColorFilter ? getAllColors() : []),
-    [showColorFilter]
+    () => (showColorFilter ? getAllColors(baseProducts) : []),
+    [showColorFilter, baseProducts]
   );
 
   const categories = showCategoryFilter
@@ -70,7 +71,9 @@ const CatalogView = ({ scope = "all" }) => {
           on the right — same layout on mobile and desktop. */}
       <div className="sticky top-16 z-40 bg-white/95 backdrop-blur border-b border-black/10 px-5 md:px-8 pb-4 flex items-center justify-between">
         <h1 className="text-[11px] uppercase tracking-widest2 text-black/50">
-          {t("shop.allCount", { count: filtered.length })}
+          {scope === "all"
+            ? t("shop.allCount", { count: filtered.length })
+            : `${t(`filters.categories.${scope}`)} (${filtered.length})`}
         </h1>
         <div className="flex items-center gap-5">
           <GridDensityToggle

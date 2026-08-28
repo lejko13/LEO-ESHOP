@@ -16,7 +16,7 @@ const camo_pink_patent_sweatpants = {
     en: "Camo sweatpants with a contrast pink drawstring waistband, cut to match the Cropped Camo Hoodie.",
     sk: "Maskáčové tepláky s kontrastným ružovým sťahovacím pásom, strihom ladiace so skrátenou maskáčovou mikinou.",
   },
-  category: "pants",
+  category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Camo"],
   showSwatches: false,

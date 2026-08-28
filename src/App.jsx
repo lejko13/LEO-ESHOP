@@ -8,6 +8,7 @@ import GateOverlay from "./components/ui/GateOverlay.jsx";
 import { SITE_GATE_ENABLED } from "./config/features.js";
 import Home from "./pages/Home.jsx";
 import Shop from "./pages/Shop.jsx";
+import ProductCategory from "./pages/ProductCategory.jsx";
 import Product from "./pages/Product.jsx";
 import Materials from "./pages/Materials.jsx";
 import MaterialProduct from "./pages/MaterialProduct.jsx";
@@ -42,6 +43,25 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/produkty" element={<Shop />} />
+                {/* Dedicated, crawlable per-category URLs — see
+                    ProductCategory.jsx for why these exist as real routes
+                    instead of just a filter on /produkty. */}
+                <Route
+                  path="/produkty/hoodie"
+                  element={<ProductCategory category="hoodies" />}
+                />
+                <Route
+                  path="/produkty/tracksuit"
+                  element={<ProductCategory category="tracksuit" />}
+                />
+                <Route
+                  path="/produkty/pants"
+                  element={<ProductCategory category="pants" />}
+                />
+                <Route
+                  path="/produkty/jacket"
+                  element={<ProductCategory category="jackets" />}
+                />
                 <Route path="/product/:id" element={<Product />} />
                 <Route path="/material" element={<Materials />} />
                 <Route path="/material/:id" element={<MaterialProduct />} />
