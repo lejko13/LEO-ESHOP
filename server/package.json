@@ -1,0 +1,17 @@
+{
+  "name": "fashion-ecommerce-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Minimal backend that creates Stripe PaymentIntents for the storefront's checkout page.",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "stripe": "^16.2.0"
+  }
+}

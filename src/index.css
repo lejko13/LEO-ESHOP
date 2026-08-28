@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Single source of truth for the site's two core colors. Change either
+   value here and every `bg-white`, `text-black`, `border-black/NN`, etc.
+   class across the entire site updates with it — see tailwind.config.js,
+   which points Tailwind's `white`/`black` tokens at these variables.
+   Nothing else in the codebase needs to change. */
+:root {
+  --color-white-rgb: 255 255 255;
+  --color-black-rgb: 10 10 10;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  background: rgb(var(--color-white-rgb));
+  color: rgb(var(--color-black-rgb));
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+/* Kill the browser's default focus ring/box-shadow on form fields — the
+   site already shows focus via its own border-color change (see
+   `inputClass` in GateOverlay.jsx, Contact.jsx, etc.), so the native blue
+   outline is just visual noise on top of that. */
+input,
+textarea,
+select,
+button {
+  outline: none;
+}
+input:focus,
+textarea:focus,
+select:focus,
+button:focus,
+button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Kill the browser's autofill highlight (the light blue/yellow fill Chrome
+   and Safari apply to autofilled fields like the gate login email) so
+   autofilled inputs keep matching the site's own white background. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgb(var(--color-white-rgb)) inset !important;
+  -webkit-text-fill-color: rgb(var(--color-black-rgb)) !important;
+  caret-color: rgb(var(--color-black-rgb));
+  transition: background-color 9999s ease-in-out 0s;
+}
