@@ -98,7 +98,33 @@ const label = (text) =>
 // Templates
 // ---------------------------------------------------------------------------
 
-function contactNotificationHtml({ name, email, phone, message }) {
+// Reference images the person attached — rendered as clickable thumbnails
+// (each links to the full-size image in Supabase Storage, since Gmail etc.
+// scale inline images down anyway).
+function imagesBlock(image_urls = []) {
+  if (!Array.isArray(image_urls) || image_urls.length === 0) return "";
+
+  const thumbs = image_urls
+    .map(
+      (url) => `
+        <td style="padding:0 8px 8px 0;">
+          <a href="${escapeHtml(url)}">
+            <img src="${escapeHtml(url)}" width="96" height="96" alt="Referenčný obrázok" style="display:block;width:96px;height:96px;object-fit:cover;border:1px solid #e5e5e5;" />
+          </a>
+        </td>
+      `
+    )
+    .join("");
+
+  return `
+    ${label("Referenčné obrázky")}
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 16px;">
+      <tr>${thumbs}</tr>
+    </table>
+  `;
+}
+
+function contactNotificationHtml({ name, email, phone, message, image_urls }) {
   return emailShell(`
     ${label("Nová správa z kontaktného formulára")}
     <p class="lf-heading" style="margin:0 0 24px;font-size:16px;font-weight:bold;color:#000000;">${escapeHtml(name)}</p>
@@ -107,6 +133,7 @@ function contactNotificationHtml({ name, email, phone, message }) {
     ${phone ? `${label("Telefón")}${paragraph(escapeHtml(phone))}` : ""}
     ${label("Správa")}
     ${paragraph(escapeHtml(message).replace(/\n/g, "<br/>"))}
+    ${imagesBlock(image_urls)}
   `);
 }
 
@@ -183,7 +210,7 @@ export default async function handler(req, res) {
 
   try {
     if (type === "contact") {
-      const { name, email, phone, message } = data;
+      const { name, email, phone, message, image_urls } = data;
       if (!name || !email || !message) {
         return res.status(400).json({ error: "Missing required fields." });
       }
@@ -192,7 +219,7 @@ export default async function handler(req, res) {
         sendEmail({
           to: OWNER_EMAIL,
           subject: `Nová správa od ${name}`,
-          html: contactNotificationHtml({ name, email, phone, message }),
+          html: contactNotificationHtml({ name, email, phone, message, image_urls }),
           replyTo: email,
         }),
         sendEmail({

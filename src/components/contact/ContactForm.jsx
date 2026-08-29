@@ -210,6 +210,7 @@ const ContactForm = () => {
           email: values.email,
           phone: fullPhoneNumber(countryCode, phone),
           message: values.message,
+          image_urls,
         }),
       }).catch(() => {});
     } catch {
