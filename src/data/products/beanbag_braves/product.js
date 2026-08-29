@@ -13,15 +13,15 @@ const beanbag_braves = {
   code: "BB-01",
   name: {
     en: "Beanbag Cap — Atlanta Braves",
-    sk: "Beanbag čiapka — Atlanta Braves",
+    sk: "Tulivak čiapka — Atlanta Braves",
   },
   price: 360.0,
   currency: "EUR",
   description: {
     en: "An oversized, cap-shaped beanbag inspired by an Atlanta Braves cap — a statement piece for the room, not the wardrobe.",
-    sk: "Nadrozmerný beanbag v tvare šiltovky inšpirovaný čiapkou Atlanta Braves — výrazný kúsok do izby, nie do skrine.",
+    sk: "Nadrozmerný tulivak v tvare šiltovky inšpirovaný čiapkou Atlanta Braves — výrazný kúsok do izby, nie do skrine.",
   },
-  category: "accessories",
+  category: "beanbag",
   sizes: ["One Size"],
   colors: ["Blue"],
   showSwatches: false,

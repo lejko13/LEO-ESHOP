@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useLanguage } from "../../hooks/useLanguage.js";
 
 // The one slide-in overlay window used everywhere on the site (filter,
@@ -7,6 +8,17 @@ import { useLanguage } from "../../hooks/useLanguage.js";
 // and structurally consistent without duplicating the shell.
 const SidePanel = ({ open, onClose, title, children }) => {
   const { t } = useLanguage();
+
+  // Lock the page behind the panel while it's open — otherwise the body
+  // scrolls along with (or instead of) the panel on mobile, which feels broken.
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
 
   if (!open) return null;
 
@@ -19,7 +31,7 @@ const SidePanel = ({ open, onClose, title, children }) => {
       />
 
       <div className="relative w-full max-w-xs h-full bg-white border-l border-black/10 overflow-y-auto">
-        <div className="flex items-center justify-between px-6 py-5 border-b border-black/10">
+        <div className="flex items-center justify-between px-6 pt-5 md:pt-16 pb-5">
           <p className="text-[11px] uppercase tracking-widest2">{title}</p>
           <button
             onClick={onClose}

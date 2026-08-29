@@ -54,12 +54,12 @@ const FilterOverlay = ({
             <p className="text-[10px] uppercase tracking-widest2 text-black/30 mb-3">
               {categoryLabel ?? t("filters.category")}
             </p>
-            <div className="flex flex-col items-start gap-2.5">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 justify-items-start">
               {categories.map((c) => (
                 <button
                   key={c.value}
                   onClick={() => onCategoryChange(c.value)}
-                  className={pillClass(activeCategory === c.value)}
+                  className={`${pillClass(activeCategory === c.value)} text-left`}
                 >
                   {c.label}
                 </button>

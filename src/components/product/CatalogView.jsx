@@ -2,12 +2,13 @@ import { useMemo, useState } from "react";
 import { products, getAllColors } from "../../data/products/index.js";
 import ProductGrid from "./ProductGrid.jsx";
 import GridDensityToggle from "./GridDensityToggle.jsx";
+import SortToggle from "./SortToggle.jsx";
 import FilterOverlay, { priceRanges } from "./Filters.jsx";
 import { useLanguage } from "../../hooks/useLanguage.js";
 import { useGridDensity } from "../../hooks/useGridDensity.js";
 
 const categoryValues = [
-  "all", "hoodies", "tracksuit", "pants", "t-shirts", "jackets", "footwear", "accessories",
+  "all", "hoodies", "tracksuit", "pants", "t-shirts", "jackets", "beanbag",
 ];
 
 // Shared by Home ("/"), Shop ("/produkty"), and the dedicated per-category
@@ -29,6 +30,9 @@ const CatalogView = ({ scope = "all", hideColorFilter = false }) => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [activePriceKey, setActivePriceKey] = useState("all");
   const [activeColor, setActiveColor] = useState(null);
+  // "color" (default) keeps the hand-picked order from data/products/index.js;
+  // "category" groups the same filtered products by category instead.
+  const [sortMode, setSortMode] = useState("color");
 
   const showCategoryFilter = scope === "all";
   const baseProducts = useMemo(
@@ -65,6 +69,19 @@ const CatalogView = ({ scope = "all", hideColorFilter = false }) => {
     setActiveColor(null);
   };
 
+  // Stable sort — within each category group, products keep their existing
+  // relative (color-flow) order, so toggling back to "color" mode is exact.
+  const categoryRank = categoryValues.filter((v) => v !== "all");
+  const sorted = useMemo(() => {
+    if (sortMode !== "category") return filtered;
+    return [...filtered].sort(
+      (a, b) => categoryRank.indexOf(a.category) - categoryRank.indexOf(b.category)
+    );
+  }, [filtered, sortMode]);
+
+  const cycleSortMode = () =>
+    setSortMode((m) => (m === "color" ? "category" : "color"));
+
   return (
     <div>
       {/* One row always — All on the left, grid density + Filter together
@@ -81,6 +98,13 @@ const CatalogView = ({ scope = "all", hideColorFilter = false }) => {
             onCycle={cycleDensity}
             label={t("shop.gridView")}
           />
+          {showCategoryFilter && (
+            <SortToggle
+              mode={sortMode}
+              onCycle={cycleSortMode}
+              label={t(`shop.sortBy${sortMode === "color" ? "Color" : "Category"}`)}
+            />
+          )}
           <button onClick={() => setFilterOpen(true)} className="text-[11px] uppercase tracking-widest2 text-black hover:text-black/60">
             {t("shop.filter")}
           </button>
@@ -88,8 +112,10 @@ const CatalogView = ({ scope = "all", hideColorFilter = false }) => {
       </div>
 
       <div className="px-2 md:px-3 py-6">
-        {filtered.length > 0 ? (
-          <ProductGrid products={filtered} density={density} />
+        {baseProducts.length === 0 ? (
+          <p className="px-3 text-[11px] uppercase tracking-widest2 text-black/40">{t("shop.comingSoon")}</p>
+        ) : sorted.length > 0 ? (
+          <ProductGrid products={sorted} density={density} />
         ) : (
           <p className="px-3 text-[11px] uppercase tracking-widest2 text-black/40">{t("shop.noResults")}</p>
         )}

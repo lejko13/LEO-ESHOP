@@ -13,15 +13,15 @@ const beanbag_yankees = {
   code: "BB-02",
   name: {
     en: "Beanbag Cap — NY Yankees",
-    sk: "Beanbag čiapka — NY Yankees",
+    sk: "Tulivak čiapka — NY Yankees",
   },
   price: 360.0,
   currency: "EUR",
   description: {
     en: "An oversized, cap-shaped beanbag inspired by an NY Yankees cap — a statement piece for the room, not the wardrobe.",
-    sk: "Nadrozmerný beanbag v tvare šiltovky inšpirovaný čiapkou NY Yankees — výrazný kúsok do izby, nie do skrine.",
+    sk: "Nadrozmerný tulivak v tvare šiltovky inšpirovaný čiapkou NY Yankees — výrazný kúsok do izby, nie do skrine.",
   },
-  category: "accessories",
+  category: "beanbag",
   sizes: ["One Size"],
   colors: ["Black"],
   showSwatches: false,

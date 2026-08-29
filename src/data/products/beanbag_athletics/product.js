@@ -13,15 +13,15 @@ const beanbag_athletics = {
   code: "BB-03",
   name: {
     en: "Beanbag Cap — Oakland A's",
-    sk: "Beanbag čiapka — Oakland A's",
+    sk: "Tulivak čiapka — Oakland A's",
   },
   price: 360.0,
   currency: "EUR",
   description: {
     en: "An oversized, cap-shaped beanbag inspired by an Oakland A's cap — a statement piece for the room, not the wardrobe.",
-    sk: "Nadrozmerný beanbag v tvare šiltovky inšpirovaný čiapkou Oakland A's — výrazný kúsok do izby, nie do skrine.",
+    sk: "Nadrozmerný tulivak v tvare šiltovky inšpirovaný čiapkou Oakland A's — výrazný kúsok do izby, nie do skrine.",
   },
-  category: "accessories",
+  category: "beanbag",
   sizes: ["One Size"],
   colors: ["Green"],
   showSwatches: false,

@@ -47,6 +47,9 @@ export const translations = {
       filter: "Filter",
       gridView: "Grid view",
       noResults: "No products match these filters.",
+      comingSoon: "New accessories coming soon.",
+      sortByColor: "Sorted by color",
+      sortByCategory: "Sorted by category",
     },
     filters: {
       title: "Filter",
@@ -67,6 +70,7 @@ export const translations = {
         jackets: "Jackets",
         footwear: "Footwear",
         accessories: "Accessories",
+        beanbag: "Beanbags",
       },
       materialTypes: {
         all: "All",
@@ -260,6 +264,9 @@ export const translations = {
       filter: "Filter",
       gridView: "Zobrazenie mriežky",
       noResults: "Žiadne produkty nezodpovedajú tomuto filtru.",
+      comingSoon: "Nové doplnky už čoskoro.",
+      sortByColor: "Zoradené podľa farby",
+      sortByCategory: "Zoradené podľa kategórie",
     },
     filters: {
       title: "Filter",
@@ -280,6 +287,7 @@ export const translations = {
         jackets: "Bundy",
         footwear: "Obuv",
         accessories: "Doplnky",
+        beanbag: "Tulivak",
       },
       materialTypes: {
         all: "Všetko",

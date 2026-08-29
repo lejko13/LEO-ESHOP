@@ -72,9 +72,12 @@ button:focus-visible {
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
+input:-webkit-autofill:active,
+input:autofill {
   -webkit-box-shadow: 0 0 0 1000px rgb(var(--color-white-rgb)) inset !important;
+  box-shadow: 0 0 0 1000px rgb(var(--color-white-rgb)) inset !important;
   -webkit-text-fill-color: rgb(var(--color-black-rgb)) !important;
+  background-color: rgb(var(--color-white-rgb)) !important;
   caret-color: rgb(var(--color-black-rgb));
-  transition: background-color 9999s ease-in-out 0s;
+  transition: background-color 9999s ease-in-out 0s, box-shadow 9999s ease-in-out 0s;
 }
