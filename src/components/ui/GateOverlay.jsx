@@ -50,6 +50,17 @@ const GateOverlay = ({ onUnlock }) => {
     // showing an error.
     const { error } = await supabase.from("signups").insert({ email });
     setSignupStatus(error && error.code !== "23505" ? "error" : "done");
+
+    // Only send the welcome email for a genuinely new signup — not when
+    // the unique-violation (23505) case above is quietly treated as
+    // success for someone already on the list.
+    if (!error) {
+      fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "signup", email }),
+      }).catch(() => {});
+    }
   };
 
   const handleLogin = async (e) => {
@@ -69,7 +80,7 @@ const GateOverlay = ({ onUnlock }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[999] bg-red-500 text-black flex items-center justify-center px-5 py-16 overflow-y-auto">
+    <div className="fixed inset-0 z-[999] bg-white text-black flex items-center justify-center px-5 py-16 overflow-y-auto">
       <div className="absolute top-5 right-5">
         <LanguageToggle variant="light" />
       </div>
