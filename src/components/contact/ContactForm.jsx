@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useLanguage } from "../../hooks/useLanguage.js";
 import { supabase, isSupabaseConfigured } from "../../config/supabase.js";
 import Button from "../ui/Button.jsx";
@@ -142,9 +142,37 @@ const ContactForm = () => {
   };
 
   const handleFilesChange = (e) => {
-    const selected = Array.from(e.target.files || []).slice(0, MAX_FILES);
-    setFiles(selected);
+    const selected = Array.from(e.target.files || []);
+
+    setFiles((prev) => {
+      const combined = [...prev, ...selected];
+      // De-dupe in case the same file gets picked twice across separate
+      // "Vybrať súbory" clicks.
+      const seen = new Set();
+      const deduped = combined.filter((f) => {
+        const key = `${f.name}-${f.size}-${f.lastModified}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+      return deduped.slice(0, MAX_FILES);
+    });
+
+    // Native file inputs otherwise won't fire onChange again if the person
+    // reopens the picker and selects the exact same file(s).
+    e.target.value = "";
   };
+
+  // Small local thumbnails for the picked files (before upload) — compact,
+  // fixed-size squares rather than a growing filename list, so attaching
+  // photos doesn't stretch the rest of the form.
+  const previewUrls = useMemo(
+    () => files.map((f) => URL.createObjectURL(f)),
+    [files]
+  );
+  useEffect(() => {
+    return () => previewUrls.forEach((url) => URL.revokeObjectURL(url));
+  }, [previewUrls]);
 
   const removeFile = (index) => {
     setFiles((f) => f.filter((_, i) => i !== index));
@@ -297,7 +325,8 @@ const ContactForm = () => {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="py-2 px-3 border border-black/20 bg-transparent text-[10px] uppercase tracking-widest2 hover:border-black transition-colors"
+            disabled={files.length >= MAX_FILES}
+            className="py-2 px-3 border border-black/20 bg-transparent text-[10px] uppercase tracking-widest2 hover:border-black transition-colors disabled:opacity-30 disabled:hover:border-black/20"
           >
             {t("contact.chooseFiles")}
           </button>
@@ -312,24 +341,25 @@ const ContactForm = () => {
         </p>
 
         {files.length > 0 && (
-          <ul className="mt-3 space-y-1">
+          <div className="mt-3 flex flex-wrap gap-2">
             {files.map((f, i) => (
-              <li
-                key={`${f.name}-${i}`}
-                className="flex items-center justify-between text-[11px] text-black/60"
-              >
-                <span className="truncate pr-2">{f.name}</span>
+              <div key={`${f.name}-${f.size}-${i}`} className="relative w-14 h-14 shrink-0">
+                <img
+                  src={previewUrls[i]}
+                  alt={f.name}
+                  className="w-14 h-14 object-cover border border-black/10"
+                />
                 <button
                   type="button"
                   onClick={() => removeFile(i)}
-                  className="text-black/30 hover:text-black shrink-0"
                   aria-label={t("contact.removeImage")}
+                  className="absolute -top-1.5 -right-1.5 w-4 h-4 flex items-center justify-center bg-black text-white text-[10px] leading-none rounded-full"
                 >
                   ×
                 </button>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
 
