@@ -62,13 +62,13 @@ const CountryCodeSelect = ({ value, onChange }) => {
   }, [open]);
 
   return (
-    <div ref={rootRef} className="relative w-32 shrink-0">
+    <div ref={rootRef} className="relative w-36 shrink-0">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="w-full flex items-center justify-between border-b border-black/20 hover:border-black focus:border-black outline-none px-1 py-3 text-[13px] bg-transparent transition-colors"
+        className="w-full h-full flex items-center justify-between border-b border-black/20 hover:border-black focus:border-black outline-none px-1 py-3 text-[13px] leading-[1.2] font-normal bg-transparent transition-colors"
       >
         <span className="truncate">{t(current.labelKey)}</span>
         <svg
@@ -273,7 +273,7 @@ const ContactForm = () => {
         className={inputClass}
       />
       <div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-stretch">
           <CountryCodeSelect value={countryCode} onChange={handleCountryChange} />
           <input
             type="tel"
@@ -286,7 +286,7 @@ const ContactForm = () => {
             }
             title={t("contact.phoneInvalid")}
             aria-invalid={phoneInvalid}
-            className={inputClass}
+            className={`${inputClass} flex-1 leading-[1.2]`}
           />
         </div>
         {phoneInvalid && (
@@ -321,7 +321,7 @@ const ContactForm = () => {
           onChange={handleFilesChange}
           className="sr-only"
         />
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col items-start gap-2">
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}

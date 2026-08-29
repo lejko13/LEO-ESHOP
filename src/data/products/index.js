@@ -9,6 +9,7 @@
 // COLOR_ORDER in the generation script if this needs regenerating.
 
 import backpack_black from "./backpack_black/product.js";
+import beanbag_yankees from "./beanbag_yankees/product.js";
 import black_tee from "./black_tee/product.js";
 import black_waterprof_pants from "./black_waterprof_pants/product.js";
 import crease_jacket from "./crease_jacket/product.js";
@@ -50,8 +51,10 @@ import green_hoodie from "./green_hoodie/product.js";
 import green_sweatpants from "./green_sweatpants/product.js";
 import lightgreen_hoodie from "./lightgreen_hoodie/product.js";
 import lightgreen_sweatpants from "./lightgreen_sweatpants/product.js";
+import beanbag_athletics from "./beanbag_athletics/product.js";
 import blue_hoodie from "./blue_hoodie/product.js";
 import blue_sweatpants from "./blue_sweatpants/product.js";
+import beanbag_braves from "./beanbag_braves/product.js";
 import baby_sweatpants from "./baby_sweatpants/product.js";
 import babyblue_hoodie from "./babyblue_hoodie/product.js";
 import purple_hoodie from "./purple_hoodie/product.js";
@@ -67,6 +70,7 @@ import yellow_sweatpants from "./yellow_sweatpants/product.js";
 
 export const products = [
   backpack_black,
+  beanbag_yankees,
   black_tee,
   black_waterprof_pants,
   crease_jacket,
@@ -108,8 +112,10 @@ export const products = [
   green_sweatpants,
   lightgreen_hoodie,
   lightgreen_sweatpants,
+  beanbag_athletics,
   blue_hoodie,
   blue_sweatpants,
+  beanbag_braves,
   baby_sweatpants,
   babyblue_hoodie,
   purple_hoodie,
