@@ -69,7 +69,7 @@ const GateOverlay = ({ onUnlock }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[999] bg-white text-black flex items-center justify-center px-5 py-16 overflow-y-auto">
+    <div className="fixed inset-0 z-[999] bg-red-500 text-black flex items-center justify-center px-5 py-16 overflow-y-auto">
       <div className="absolute top-5 right-5">
         <LanguageToggle variant="light" />
       </div>
