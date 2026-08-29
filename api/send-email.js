@@ -20,31 +20,58 @@ const FROM = "LEO FUDALY <hello@leofudaly.com>";
 const OWNER_EMAIL = "leo.fudaly@gmail.com";
 
 // ---------------------------------------------------------------------------
-// Shared HTML shell — mirrors the site's look (white, black text, thin
-// borders, uppercase tracked wordmark) so the emails feel like they came
-// from the same brand, not a generic transactional-email template.
+// Shared HTML shell — mirrors the site's look (all white, black text, thin
+// borders, uppercase tracked wordmark), no separate "card on a grey page"
+// framing, so it feels like an extension of the site itself.
+//
+// Gmail (and some other clients) auto-invert emails into a dark theme when
+// they don't see an explicit light-mode signal, which is why an
+// all-white/black design can otherwise show up with a black background and
+// white text on a phone. The <meta> tags plus the forced light-mode CSS
+// block below (including the `[data-ogsc]` selector Gmail's own dark-mode
+// engine adds) tell every major client to leave the colors alone.
 // ---------------------------------------------------------------------------
 const emailShell = (bodyHtml) => `
 <!DOCTYPE html>
-<html>
-  <body style="margin:0;padding:0;background-color:#f5f5f5;font-family:Helvetica,Arial,sans-serif;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f5;padding:40px 16px;">
+<html lang="sk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="supported-color-schemes" content="light" />
+    <style>
+      :root { color-scheme: light; supported-color-schemes: light; }
+      body, table, td { background-color: #ffffff !important; }
+      .lf-text, .lf-heading { color: #000000 !important; }
+      .lf-muted { color: #999999 !important; }
+      @media (prefers-color-scheme: dark) {
+        body, table, td { background-color: #ffffff !important; }
+        .lf-text, .lf-heading { color: #000000 !important; }
+        .lf-muted { color: #999999 !important; }
+      }
+      [data-ogsc] body, [data-ogsc] table, [data-ogsc] td { background-color: #ffffff !important; }
+      [data-ogsc] .lf-text, [data-ogsc] .lf-heading { color: #000000 !important; }
+      [data-ogsc] .lf-muted { color: #999999 !important; }
+    </style>
+  </head>
+  <body bgcolor="#ffffff" style="margin:0;padding:0;background-color:#ffffff;font-family:Helvetica,Arial,sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="background-color:#ffffff;">
       <tr>
-        <td align="center">
-          <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="background-color:#ffffff;max-width:480px;width:100%;">
+        <td align="center" style="padding:40px 16px;">
+          <table role="presentation" width="480" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="background-color:#ffffff;max-width:480px;width:100%;">
             <tr>
-              <td style="padding:28px 32px;border-bottom:1px solid #000000;text-align:center;">
-                <span style="font-size:13px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;color:#000000;">LEO FUDALY</span>
+              <td bgcolor="#ffffff" style="background-color:#ffffff;padding:0 0 20px;border-bottom:1px solid #000000;text-align:center;">
+                <span class="lf-heading" style="font-size:13px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;color:#000000;">LEO FUDALY</span>
               </td>
             </tr>
             <tr>
-              <td style="padding:32px;">
+              <td bgcolor="#ffffff" style="background-color:#ffffff;padding:32px 4px;">
                 ${bodyHtml}
               </td>
             </tr>
             <tr>
-              <td style="padding:20px 32px;border-top:1px solid #e5e5e5;text-align:center;">
-                <a href="https://www.leofudaly.com" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999999;text-decoration:none;">leofudaly.com</a>
+              <td bgcolor="#ffffff" style="background-color:#ffffff;padding:20px 4px 0;border-top:1px solid #e5e5e5;text-align:center;">
+                <a href="https://www.leofudaly.com" class="lf-muted" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999999;text-decoration:none;">leofudaly.com</a>
               </td>
             </tr>
           </table>
@@ -62,10 +89,10 @@ const escapeHtml = (value = "") =>
     .replace(/>/g, "&gt;");
 
 const paragraph = (text) =>
-  `<p style="margin:0 0 16px;font-size:13px;line-height:1.6;color:#000000;">${text}</p>`;
+  `<p class="lf-text" style="margin:0 0 16px;font-size:13px;line-height:1.6;color:#000000;">${text}</p>`;
 
 const label = (text) =>
-  `<p style="margin:0 0 4px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999999;">${text}</p>`;
+  `<p class="lf-muted" style="margin:0 0 4px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999999;">${text}</p>`;
 
 // ---------------------------------------------------------------------------
 // Templates
@@ -74,7 +101,7 @@ const label = (text) =>
 function contactNotificationHtml({ name, email, phone, message }) {
   return emailShell(`
     ${label("Nová správa z kontaktného formulára")}
-    <p style="margin:0 0 24px;font-size:16px;font-weight:bold;color:#000000;">${escapeHtml(name)}</p>
+    <p class="lf-heading" style="margin:0 0 24px;font-size:16px;font-weight:bold;color:#000000;">${escapeHtml(name)}</p>
     ${label("E-mail")}
     ${paragraph(escapeHtml(email))}
     ${phone ? `${label("Telefón")}${paragraph(escapeHtml(phone))}` : ""}
@@ -86,7 +113,7 @@ function contactNotificationHtml({ name, email, phone, message }) {
 function contactConfirmationHtml({ name }) {
   return emailShell(`
     ${label("Ďakujeme")}
-    <p style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">Dobrý deň${name ? `, ${escapeHtml(name)}` : ""}.</p>
+    <p class="lf-heading" style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">Dobrý deň${name ? `, ${escapeHtml(name)}` : ""}.</p>
     ${paragraph("Vaša správa bola úspešne prijatá. Ozveme sa vám čo najskôr.")}
   `);
 }
@@ -94,15 +121,20 @@ function contactConfirmationHtml({ name }) {
 function signupNotificationHtml({ email }) {
   return emailShell(`
     ${label("Nová registrácia na newsletter")}
-    <p style="margin:0;font-size:16px;font-weight:bold;color:#000000;">${escapeHtml(email)}</p>
+    <p class="lf-heading" style="margin:0;font-size:16px;font-weight:bold;color:#000000;">${escapeHtml(email)}</p>
   `);
 }
 
 function signupConfirmationHtml() {
   return emailShell(`
     ${label("Vitajte")}
-    <p style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">Ďakujeme za registráciu.</p>
+    <p class="lf-heading" style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">Ďakujeme za registráciu.</p>
     ${paragraph("Budete medzi prvými, ktorí sa dozvedia o nových kolekciách a exkluzívnych ponukách.")}
+    <p style="margin:28px 0 0;font-size:10px;letter-spacing:2px;text-transform:uppercase;">
+      <a href="https://www.instagram.com/leofudaly/" class="lf-text" style="color:#000000;text-decoration:underline;">Instagram</a>
+      <span class="lf-muted" style="color:#999999;">&nbsp;&middot;&nbsp;</span>
+      <a href="https://www.tiktok.com/@leofudaly" class="lf-text" style="color:#000000;text-decoration:underline;">TikTok</a>
+    </p>
   `);
 }
 
