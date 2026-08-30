@@ -16,6 +16,18 @@ const beige_tee = {
     en: "A heavyweight, boxy-fit tee in beige with dropped shoulders for an oversized silhouette.",
     sk: "Ťažké tričko v béžovej farbe s boxy strihom a spustenými ramenami pre oversized siluetu.",
   },
+  features: {
+    en: [
+      "Heavyweight cotton",
+      "Dropped shoulders, oversized fit",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Ťažká bavlna",
+      "Spustené ramená, oversized strih",
+      "Šité na Slovensku",
+    ],
+  },
   category: "t-shirts",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Beige"],
@@ -23,8 +35,8 @@ const beige_tee = {
   sizeChart: "A",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

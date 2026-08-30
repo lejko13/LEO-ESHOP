@@ -8,6 +8,7 @@ import { resolveCartItem } from "../utils/cartItem.js";
 import {
   getShippingMethod,
   getPacketaPrice,
+  getGlsPrice,
   isCartTooBulkyForBox,
 } from "../data/shippingMethods.js";
 import { STRIPE_PUBLISHABLE_KEY } from "../config/stripe.js";
@@ -222,13 +223,16 @@ const Checkout = () => {
     (sum, { entry }) => sum + entry.lineTotal,
     0
   );
+  // GLS is a flat rate per destination country (also covers oversized "C"
+  // items, which are GLS-only) — see getGlsPrice.
+  const glsPrice = getGlsPrice(country);
   // Packeta (pickupPoint-type) methods use the dynamic tier/country price;
-  // GLS keeps its own static price from data/shippingMethods.js for now.
+  // GLS (address-type) uses the flat per-country price above.
   const shippingPrice = !selectedShipping
     ? 0
     : selectedShipping.type === "pickupPoint"
       ? packetaPrice
-      : selectedShipping.price;
+      : glsPrice;
   const total = subtotal + shippingPrice;
   const amountInCents = Math.round(total * 100);
 
@@ -275,6 +279,7 @@ const Checkout = () => {
             country={country}
             onCountryChange={setCountry}
             packetaPrice={packetaPrice}
+            glsPrice={glsPrice}
             tooBulkyForBox={tooBulkyForBox}
           />
 

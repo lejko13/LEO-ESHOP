@@ -11,11 +11,23 @@ const flared_zip = {
     en: "Zip Sleeve Hoodie",
     sk: "Mikina so zipsami na rukávoch",
   },
-  price: 89.0,
+  price: 90.0,
   currency: "EUR",
   description: {
     en: "A heavyweight hoodie finished with full-length zips down both sleeves.",
     sk: "Ťažká mikina dokončená zipsami v celej dĺžke oboch rukávov.",
+  },
+  features: {
+    en: [
+      "Heavyweight cotton",
+      "Full-length zips down sleeves",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Ťažká bavlna",
+      "Zipsy po celej dĺžke rukávov",
+      "Šité na Slovensku",
+    ],
   },
   category: "hoodies",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -24,8 +36,8 @@ const flared_zip = {
   sizeChart: "A",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

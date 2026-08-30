@@ -10,11 +10,23 @@ const pants_holes = {
     en: "Laced Cargo Pants",
     sk: "Šnurovacie cargo nohavice",
   },
-  price: 95.0,
+  price: 90.0,
   currency: "EUR",
   description: {
     en: "Wide-leg pants finished with eyelet lacing down both legs, for an undone, deconstructed look.",
     sk: "Nohavice so širokou nohavicou dokončené šnurovaním s očkami po oboch stranách, pre rozvoľnený, deštruovaný vzhľad.",
+  },
+  features: {
+    en: [
+      "Eyelet lacing down both legs",
+      "Undone, deconstructed look",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Šnurovanie po celej dĺžke nohavíc",
+      "Deštruovaný vzhľad",
+      "Šité na Slovensku",
+    ],
   },
   category: "pants",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -23,8 +35,8 @@ const pants_holes = {
   sizeChart: "B",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

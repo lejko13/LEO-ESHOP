@@ -15,11 +15,23 @@ const beanbag_yankees = {
     en: "Beanbag Cap — NY Yankees",
     sk: "Tulivak čiapka — NY Yankees",
   },
-  price: 360.0,
+  price: 380.0,
   currency: "EUR",
   description: {
-    en: "An oversized, cap-shaped beanbag inspired by an NY Yankees cap — a statement piece for the room, not the wardrobe.",
-    sk: "Nadrozmerný tulivak v tvare šiltovky inšpirovaný čiapkou NY Yankees — výrazný kúsok do izby, nie do skrine.",
+    en: "An oversized, cap-shaped beanbag inspired by an NY Yankees cap.",
+    sk: "Nadrozmerný tulivak v tvare šiltovky inšpirovaný čiapkou NY Yankees.",
+  },
+  features: {
+    en: [
+      "Oversized cap-shaped design",
+      "Statement piece for the room",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Nadrozmerný dizajn v tvare šiltovky",
+      "Doplnok do interiéru, nie na nosenie",
+      "Šité na Slovensku",
+    ],
   },
   category: "beanbag",
   sizes: ["One Size"],
@@ -28,8 +40,8 @@ const beanbag_yankees = {
   sizeChart: "X",
   big: "C",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

@@ -10,11 +10,25 @@ const crease_vest = {
     en: "Crease Puffer Vest",
     sk: "Prešívaná vesta Crease",
   },
-  price: 129.0,
+  price: 170.0,
   currency: "EUR",
   description: {
     en: "A sleeveless puffer vest in the same crinkled nylon finish as the Crease jacket line, with ribbed collar and hem.",
     sk: "Vesta bez rukávov v rovnakom pokrčenom nylonovom prevedení ako bundy z kolekcie Crease, s rebrovaným golierom a lemom.",
+  },
+  features: {
+    en: [
+      "Crinkled, sculptural nylon",
+      "Ribbed collar and hem",
+      "High-quality natural filling",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Pokrčený, sochársky nylon",
+      "Rebrovaný golier a lem",
+      "Kvalitná prírodná výplň",
+      "Šité na Slovensku",
+    ],
   },
   category: "jackets",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -23,8 +37,8 @@ const crease_vest = {
   sizeChart: "A",
   big: "B",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

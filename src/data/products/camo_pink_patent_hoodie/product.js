@@ -10,11 +10,23 @@ const camo_pink_patent_hoodie = {
     en: "Cropped Camo Hoodie — Pink Trim",
     sk: "Skrátená maskáčová mikina — ružový lem",
   },
-  price: 95.0,
+  price: 85.0,
   currency: "EUR",
   description: {
     en: "A cropped camo hoodie finished with contrast pink ribbing at the cuffs and hem.",
     sk: "Skrátená maskáčová mikina dokončená kontrastným ružovým rebrovaním na manžetách a spodnom leme.",
+  },
+  features: {
+    en: [
+      "Cropped camo silhouette",
+      "Contrast pink ribbing",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Skrátený maskáčový strih",
+      "Kontrastné ružové rebrovanie",
+      "Šité na Slovensku",
+    ],
   },
   category: "hoodies",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -23,8 +35,8 @@ const camo_pink_patent_hoodie = {
   sizeChart: "A",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

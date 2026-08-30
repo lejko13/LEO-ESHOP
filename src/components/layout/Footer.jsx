@@ -13,14 +13,16 @@ const Footer = () => {
     { label: t("filters.categories.tracksuit"), to: "/produkty/tracksuit" },
     { label: t("filters.categories.pants"), to: "/produkty/pants" },
     { label: t("filters.categories.jackets"), to: "/produkty/jacket" },
-    { label: t("nav.materials"), to: "/material" },
-    { label: t("nav.accessories"), to: "/doplnky" },
+    { label: t("filters.categories.beanbag"), to: "/produkty/tulivak" },
+    { label: t("filters.categories.bags"), to: "/produkty/tasky" },
+    // { label: t("nav.materials"), to: "/material" },
+    // { label: t("nav.accessories"), to: "/doplnky" },
     { label: t("nav.about"), to: "/about" },
     { label: t("nav.contact"), to: "/contact" },
     { label: t("footer.terms"), to: "/terms" },
     { label: t("footer.privacy"), to: "/privacy" },
     { label: t("footer.accessibility"), to: "/accessibility" },
-    { label: t("footer.orderStatus"), to: "/order-status" },
+    // { label: t("footer.orderStatus"), to: "/order-status" },
   ];
 
   return (

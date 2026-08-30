@@ -20,6 +20,7 @@ const Navbar = () => {
       <nav className="h-16 flex items-center justify-between px-5 md:px-8">
         <Link
           to="/"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="text-[13px] font-bold uppercase tracking-widest2"
         >
           LEO FUDALY

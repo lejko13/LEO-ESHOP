@@ -11,11 +11,23 @@ const hoodie_double_hood = {
     en: "Double Hood Zip Hoodie",
     sk: "Zipsová mikina s dvojitou kapucňou",
   },
-  price: 95.0,
+  price: 120.0,
   currency: "EUR",
   description: {
     en: "A full-zip hoodie with a layered double hood construction for extra depth and drama.",
     sk: "Zipsová mikina s vrstvenou konštrukciou dvojitej kapucne pre výraznejší efekt.",
+  },
+  features: {
+    en: [
+      "Full front zip",
+      "Layered double hood",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Plný predný zips",
+      "Zdvojená kapucňa",
+      "Šité na Slovensku",
+    ],
   },
   category: "hoodies",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -24,8 +36,8 @@ const hoodie_double_hood = {
   sizeChart: "A",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

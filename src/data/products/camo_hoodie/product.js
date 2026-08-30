@@ -10,11 +10,23 @@ const camo_hoodie = {
     en: "Camo Hoodie",
     sk: "Maskáčová mikina",
   },
-  price: 82.0,
+  price: 85.0,
   currency: "EUR",
   description: {
     en: "A heavyweight hoodie in a classic woodland camo print, cut with the same relaxed fit as the rest of the line.",
     sk: "Ťažká mikina s klasickou maskáčovou potlačou, strihnutá rovnako voľne ako zvyšok kolekcie.",
+  },
+  features: {
+    en: [
+      "Classic woodland camo",
+      "Relaxed fit",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Klasický lesný maskáč",
+      "Uvoľnený strih",
+      "Šité na Slovensku",
+    ],
   },
   category: "hoodies",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -23,8 +35,8 @@ const camo_hoodie = {
   sizeChart: "A",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

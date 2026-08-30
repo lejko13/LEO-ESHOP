@@ -10,11 +10,23 @@ const grey_waterprof_pants = {
     en: "Waterproof Parachute Pants",
     sk: "Nepremokavé parašutistické nohavice",
   },
-  price: 99.0,
+  price: 65.0,
   currency: "EUR",
   description: {
     en: "Wide, parachute-cut pants in a lightweight waterproof shell. Drawstring waist and adjustable cuffs at the ankle.",
     sk: "Široké nohavice v strihu parašutistov z ľahkého nepremokavého materiálu. Sťahovací pás a nastaviteľné lemy na členkoch.",
+  },
+  features: {
+    en: [
+      "Waterproof shell",
+      "Adjustable ankle cuffs",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Nepremokavý povrch",
+      "Nastaviteľné lemy na členkoch",
+      "Šité na Slovensku",
+    ],
   },
   category: "pants",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -23,8 +35,8 @@ const grey_waterprof_pants = {
   sizeChart: "B",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

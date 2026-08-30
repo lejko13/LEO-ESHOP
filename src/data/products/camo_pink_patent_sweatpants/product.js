@@ -16,6 +16,18 @@ const camo_pink_patent_sweatpants = {
     en: "Camo sweatpants with a contrast pink drawstring waistband, cut to match the Cropped Camo Hoodie.",
     sk: "Maskáčové tepláky s kontrastným ružovým sťahovacím pásom, strihom ladiace so skrátenou maskáčovou mikinou.",
   },
+  features: {
+    en: [
+      "Camo print",
+      "Contrast pink drawstring waist",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Maskáčový vzor",
+      "Kontrastný ružový sťahovací pás",
+      "Šité na Slovensku",
+    ],
+  },
   category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Camo"],
@@ -23,8 +35,8 @@ const camo_pink_patent_sweatpants = {
   sizeChart: "B",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

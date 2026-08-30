@@ -10,11 +10,23 @@ const brown_hoodie = {
     en: "Essential Hoodie",
     sk: "Základná mikina",
   },
-  price: 79.0,
+  price: 75.0,
   currency: "EUR",
   description: {
     en: "A relaxed, oversized hoodie made from heavyweight brushed cotton in a warm brown.",
     sk: "Voľná, oversized mikina z ťažkej česanej bavlny v teplej hnedej farbe.",
+  },
+  features: {
+    en: [
+      "Heavyweight brushed cotton",
+      "Relaxed, oversized fit",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Ťažká česaná bavlna",
+      "Voľný, oversized strih",
+      "Šité na Slovensku",
+    ],
   },
   category: "hoodies",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -23,8 +35,8 @@ const brown_hoodie = {
   sizeChart: "A",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

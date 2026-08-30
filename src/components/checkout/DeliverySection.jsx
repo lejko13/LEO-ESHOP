@@ -31,6 +31,7 @@ const DeliverySection = ({
   country,
   onCountryChange,
   packetaPrice,
+  glsPrice,
   tooBulkyForBox,
 }) => {
   const { t, pick, language } = useLanguage();
@@ -128,7 +129,8 @@ const DeliverySection = ({
         <>
           <div className="space-y-3">
             {availableMethods.map((m) => {
-              const price = m.type === "pickupPoint" ? packetaPrice : m.price;
+              const price =
+                m.type === "pickupPoint" ? packetaPrice : glsPrice;
               return (
                 <button
                   key={m.id}

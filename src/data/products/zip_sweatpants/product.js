@@ -11,11 +11,23 @@ const zip_sweatpants = {
     en: "Zip Sweatpants",
     sk: "Zipsové tepláky",
   },
-  price: 85.0,
+  price: 90.0,
   currency: "EUR",
   description: {
     en: "Wide-leg sweatpants finished with full-length zips down both legs.",
     sk: "Tepláky so širokou nohavicou dokončené zipsami v celej dĺžke oboch nohavíc.",
+  },
+  features: {
+    en: [
+      "Full-length zips down both legs",
+      "Wide-leg fit",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Zipsy po celej dĺžke nohavíc",
+      "Široký strih",
+      "Šité na Slovensku",
+    ],
   },
   category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -24,8 +36,8 @@ const zip_sweatpants = {
   sizeChart: "B",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

@@ -10,11 +10,25 @@ const grass_bag = {
     en: "Fringed Tote Bag",
     sk: "Strapcová taška",
   },
-  price: 89.0,
+  price: 80.0,
   currency: "EUR",
   description: {
-    en: "A tote bag woven from frayed, fringed thread for a raw, textured finish.",
-    sk: "Taška utkaná zo strapcovitých, rozstrapkaných vlákien pre surový, textúrovaný vzhľad.",
+ en: "A tote bag made from frayed, fringed thread for a raw, textured finish.",
+
+sk: "Taška zo strapcovitých, rozstrapkaných vlákien pre surový, textúrovaný vzhľad."
+
+  },
+  features: {
+    en: [
+      "Fringed, textured weave",
+      "Raw, unfinished look",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Strapcová, textúrovaná pletenina",
+      "Surový, nedokončený vzhľad",
+      "Šité na Slovensku",
+    ],
   },
   category: "bags",
   sizes: ["One Size"],
@@ -23,8 +37,8 @@ const grass_bag = {
   sizeChart: "X",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

@@ -9,11 +9,23 @@ const camo_pants = {
     en: "Camo Cargo Pants",
     sk: "Maskáčové cargo nohavice",
   },
-  price: 89.0,
+  price: 85.0,
   currency: "EUR",
   description: {
     en: "Wide-leg cargo pants in a classic woodland camo print, with utility pockets down each leg.",
     sk: "Cargo nohavice so širokou nohavicou a klasickou maskáčovou potlačou, s úžitkovými vreckami na oboch nohaviciach.",
+  },
+  features: {
+    en: [
+      "Classic woodland camo",
+      "Utility cargo pockets",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Klasický lesný maskáč",
+      "Nákladné vrecká na nohaviciach",
+      "Šité na Slovensku",
+    ],
   },
   category: "pants",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -22,8 +34,8 @@ const camo_pants = {
   sizeChart: "B",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

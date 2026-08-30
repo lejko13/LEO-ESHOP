@@ -10,11 +10,23 @@ const camo_sweatpants = {
     en: "Camo Sweatpants",
     sk: "Maskáčové tepláky",
   },
-  price: 79.0,
+  price: 85.0,
   currency: "EUR",
   description: {
     en: "Wide-leg sweatpants in a classic woodland camo print, cut to match the Camo Hoodie.",
     sk: "Tepláky so širokou nohavicou s klasickou maskáčovou potlačou, strihom ladiace s maskáčovou mikinou.",
+  },
+  features: {
+    en: [
+      "Classic woodland camo",
+      "Matches the Camo Hoodie",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Klasický lesný maskáč",
+      "Ladí s Maskáčovou mikinou",
+      "Šité na Slovensku",
+    ],
   },
   category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -23,8 +35,8 @@ const camo_sweatpants = {
   sizeChart: "B",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

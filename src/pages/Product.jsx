@@ -121,9 +121,19 @@ const Product = () => {
           {pick(product.description)}
         </p>
 
+        {product.features && (
+          <div className="mt-4 space-y-1">
+            {pick(product.features).map((feature) => (
+              <p key={feature} className="text-[13px] leading-relaxed text-black/60">
+                - {feature}
+              </p>
+            ))}
+          </div>
+        )}
+
         {product.delivery && (
-          <p className="mt-4 text-[10px] uppercase tracking-widest2 text-black/40">
-            {t("product.delivery")}: {pick(product.delivery)}
+          <p className="mt-4 text-[10px] uppercase tracking-widest2 text-black/40 whitespace-pre-line">
+            {pick(product.delivery)}
           </p>
         )}
 

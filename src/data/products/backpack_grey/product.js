@@ -10,11 +10,23 @@ const backpack_grey = {
     en: "Quilted Backpack",
     sk: "Prešívaný batoh",
   },
-  price: 95.0,
+  price: 110.0,
   currency: "EUR",
   description: {
     en: "A padded, quilted backpack with adjustable straps and a drawstring top closure. Roomy enough for daily carry.",
     sk: "Vypchatý, prešívaný batoh s nastaviteľnými popruhmi a sťahovacím horným uzáverom. Dostatočne priestranný na každodenné nosenie.",
+  },
+  features: {
+    en: [
+      "Padded, quilted design",
+      "Adjustable straps",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Prešívaný, vypchatý dizajn",
+      "Nastaviteľné popruhy",
+      "Šité na Slovensku",
+    ],
   },
   category: "bags",
   sizes: ["One Size"],
@@ -23,8 +35,8 @@ const backpack_grey = {
   sizeChart: "X",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

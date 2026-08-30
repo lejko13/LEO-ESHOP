@@ -10,11 +10,23 @@ const mozaik_bag = {
     en: "Mosaic Tote Bag",
     sk: "Mozaiková taška",
   },
-  price: 89.0,
+  price: 200.0,
   currency: "EUR",
   description: {
     en: "A tote bag in patchworked faux leather, pieced together with exposed metal grommets and rings.",
     sk: "Taška z patchworkovej ekokože, poskladaná z kúskov spojených viditeľnými kovovými očkami a krúžkami.",
+  },
+  features: {
+    en: [
+      "Patchworked faux leather",
+      "Exposed metal grommets and rings",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Patchworková imitácia kože",
+      "Kovové cvočky a krúžky",
+      "Šité na Slovensku",
+    ],
   },
   category: "bags",
   sizes: ["One Size"],
@@ -23,8 +35,8 @@ const mozaik_bag = {
   sizeChart: "X",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

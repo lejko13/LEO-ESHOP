@@ -63,6 +63,14 @@ function App() {
                   path="/produkty/jacket"
                   element={<ProductCategory category="jackets" />}
                 />
+                <Route
+                  path="/produkty/tulivak"
+                  element={<ProductCategory category="beanbag" />}
+                />
+                <Route
+                  path="/produkty/tasky"
+                  element={<ProductCategory category="bags" />}
+                />
                 <Route path="/product/:id" element={<Product />} />
                 <Route path="/material" element={<Materials />} />
                 <Route path="/material/:id" element={<MaterialProduct />} />

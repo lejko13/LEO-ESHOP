@@ -12,11 +12,25 @@ const crease_jacket_v2 = {
     en: "Crease Jacket V2",
     sk: "Bunda Crease V2",
   },
-  price: 165.0,
+  price: 220.0,
   currency: "EUR",
   description: {
     en: "A cropped, hooded jacket with a crinkled, sculptural nylon finish and full front zip.",
     sk: "Skrátená bunda s kapucňou, pokrčeným sochárskym nylonovým povrchom a predným zipsom v celej dĺžke.",
+  },
+  features: {
+    en: [
+      "Crinkled, sculptural nylon",
+      "Full front zip",
+      "High-quality natural filling",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Pokrčený, sochársky nylon",
+      "Plný predný zips",
+      "Kvalitná prírodná výplň",
+      "Šité na Slovensku",
+    ],
   },
   category: "jackets",
   sizes: ["XS", "S", "M", "L", "XL"],
@@ -25,8 +39,8 @@ const crease_jacket_v2 = {
   sizeChart: "A",
   big: "B",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

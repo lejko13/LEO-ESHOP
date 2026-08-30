@@ -31,7 +31,8 @@ export const shippingMethods = [
       en: "Delivered by courier straight to your address.",
       sk: "Doručenie kuriérom priamo na vašu adresu.",
     },
-    price: 4.5,
+    price: null, // dynamic, see getGlsPrice — kept null so a stale static
+    // price is never accidentally read for this method.
     type: "address",
   },
 ];
@@ -109,8 +110,9 @@ export const getAvailableShippingMethods = (restrictToAddressOnly) =>
 //   4-7 points  -> SK 5 EUR, CZ 7 EUR
 //   8+ points   -> SK 8 EUR, CZ 10 EUR
 //
-// GLS keeps its own static price (see `shippingMethods` above) regardless
-// of tier/country for now - only Packeta pricing is dynamic here.
+// GLS is a flat rate per destination country (not weight-tiered like
+// Packeta) - see getGlsPrice below. This also covers oversized ("C") items,
+// which are GLS-only.
 //
 // Only Slovakia and Czechia are real, priced options - Packeta/GLS aren't
 // actually wired up for Hungary/Romania (there's no real API integration
@@ -147,6 +149,12 @@ export const getPacketaPrice = (items = [], countryCode = "SK") => {
   // 8+ points.
   return countryCode === "SK" ? 8 : 10;
 };
+
+// GLS courier price by destination country - flat rate, doesn't depend on
+// cart weight/size (unlike Packeta). Covers oversized ("C") items too,
+// since GLS is the only option offered for those.
+export const getGlsPrice = (countryCode = "SK") =>
+  countryCode === "SK" ? 15 : 25;
 
 // A real Packeta BOX is a fixed-size compartment — fine for a handful of
 // light items, but a cart heavy/bulky enough to land in the top price tier

@@ -16,6 +16,18 @@ const green_sweatpants = {
     en: "Wide-leg sweatpants in heavyweight cotton fleece, cut to match the Essential Hoodie.",
     sk: "Tepláky so širokou nohavicou z ťažkej bavlnenej teplákoviny, strihom ladiace so Základnou mikinou.",
   },
+  features: {
+    en: [
+      "Heavyweight cotton fleece",
+      "Wide-leg cut",
+      "Made in Slovakia",
+    ],
+    sk: [
+      "Ťažká bavlnená froté",
+      "Široký strih nohavíc",
+      "Šité na Slovensku",
+    ],
+  },
   category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Green"],
@@ -23,8 +35,8 @@ const green_sweatpants = {
   sizeChart: "B",
   big: "A",
   delivery: {
-    en: "Ships in 1-2 business days, delivery in 3-5 business days",
-    sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",
+    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,
