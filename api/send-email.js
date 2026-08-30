@@ -154,14 +154,9 @@ function signupNotificationHtml({ email }) {
 
 function signupConfirmationHtml() {
   return emailShell(`
-    ${label("Vitajte")}
-    <p class="lf-heading" style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">Ďakujeme za registráciu.</p>
-    ${paragraph("Budete medzi prvými, ktorí sa dozvedia o nových kolekciách a exkluzívnych ponukách.")}
-    <p style="margin:28px 0 0;font-size:10px;letter-spacing:2px;text-transform:uppercase;">
-      <a href="https://www.instagram.com/leofudaly/" class="lf-text" style="color:#000000;text-decoration:underline;">Instagram</a>
-      <span class="lf-muted" style="color:#999999;">&nbsp;&middot;&nbsp;</span>
-      <a href="https://www.tiktok.com/@leofudaly" class="lf-text" style="color:#000000;text-decoration:underline;">TikTok</a>
-    </p>
+    ${label("Potvrdenie")}
+    <p class="lf-heading" style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">Registrácia prijatá.</p>
+    ${paragraph("Váš e-mail sme si zaznamenali. Ozveme sa, keď bude niečo nové.")}
   `);
 }
 
