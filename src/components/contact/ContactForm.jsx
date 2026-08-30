@@ -151,7 +151,7 @@ const ContactForm = () => {
       />
       <textarea
         required
-        rows={4}
+        rows={3}
         value={values.message}
         onChange={(e) => handleChange("message", e.target.value)}
         placeholder={t("contact.message")}
