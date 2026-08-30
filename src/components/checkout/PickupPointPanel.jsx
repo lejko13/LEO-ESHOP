@@ -22,9 +22,18 @@ const PickupPointPanel = ({ open, onClose, points, onSelect }) => {
             onClick={() => onSelect(point)}
             className="w-full text-left p-4 border border-black/20 hover:border-black transition-colors"
           >
-            <p className="text-[12px] uppercase tracking-widest2">
-              {point.name}
-            </p>
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-[12px] uppercase tracking-widest2">
+                {point.name}
+              </p>
+              {point.kind && (
+                <span className="text-[9px] uppercase tracking-widest2 text-black/40 shrink-0 border border-black/20 px-1.5 py-0.5">
+                  {point.kind === "box"
+                    ? t("checkout.pointKindBox")
+                    : t("checkout.pointKindPickup")}
+                </span>
+              )}
+            </div>
             <p className="text-[11px] text-black/50 mt-1">
               {point.address}, {point.city}
             </p>

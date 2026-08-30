@@ -17,6 +17,7 @@ import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
 import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
+import OrderSuccess from "./pages/OrderSuccess.jsx";
 import Admin from "./pages/Admin.jsx";
 import Legal from "./pages/Legal.jsx";
 import NotFound from "./pages/NotFound.jsx";
@@ -70,6 +71,7 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/objednavka-prijata" element={<OrderSuccess />} />
                 {/* Hidden owner page, not linked in nav/footer — has its
                     own Supabase Auth login, so it works even after
                     SITE_GATE_ENABLED is turned off for launch. */}

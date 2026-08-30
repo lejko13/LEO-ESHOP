@@ -8,7 +8,7 @@ import { useLanguage } from "../../hooks/useLanguage.js";
 import { useGridDensity } from "../../hooks/useGridDensity.js";
 
 const categoryValues = [
-  "all", "hoodies", "tracksuit", "pants", "t-shirts", "jackets", "beanbag",
+  "all", "hoodies", "tracksuit", "pants", "t-shirts", "jackets", "bags", "beanbag",
 ];
 
 // Shared by Home ("/"), Shop ("/produkty"), and the dedicated per-category

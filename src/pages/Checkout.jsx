@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 import { useCart } from "../hooks/useCart.js";
 import { useLanguage } from "../hooks/useLanguage.js";
 import { resolveCartItem } from "../utils/cartItem.js";
-import { getShippingMethod } from "../data/shippingMethods.js";
+import {
+  getShippingMethod,
+  getPacketaPrice,
+  isCartTooBulkyForBox,
+} from "../data/shippingMethods.js";
 import { STRIPE_PUBLISHABLE_KEY } from "../config/stripe.js";
 import ContactSection from "../components/checkout/ContactSection.jsx";
 import DeliverySection from "../components/checkout/DeliverySection.jsx";
@@ -119,6 +123,11 @@ const Checkout = () => {
     postalCode: "",
     country: "",
   });
+  // Destination country for pricing purposes — separate from glsAddress's
+  // free-text country field (that one's the literal courier delivery
+  // address; this one only drives the Packeta price tier, see
+  // getPacketaPrice in data/shippingMethods.js). Defaults to Slovakia.
+  const [country, setCountry] = useState("SK");
 
   const [orderNote, setOrderNote] = useState("");
   const [consents, setConsents] = useState({ terms: false, privacy: false });
@@ -165,14 +174,26 @@ const Checkout = () => {
     .map((item) => ({ item, entry: resolveCartItem(item) }))
     .filter(({ entry }) => Boolean(entry));
 
-  // Any oversized item (`big: "A"`) in the cart restricts delivery to GLS
+  // Any oversized item (`big: "C"`) in the cart restricts delivery to GLS
   // courier only — Packeta BOX/pickup points don't fit it. Re-adding a
   // regular item, or removing the oversized one, brings the other methods
   // back automatically since this is recomputed from the live cart.
   // Materials never carry `big`, so they never trigger this.
   const hasBulkyItem = itemsWithProducts.some(
-    ({ entry }) => entry.big === "A"
+    ({ entry }) => entry.big === "C"
   );
+
+  // Packeta's price depends on how many "B" (bigger, e.g. jackets) items
+  // are in the cart plus the destination country — see getPacketaPrice.
+  const packetaItems = itemsWithProducts.map(({ entry }) => ({
+    big: entry.big,
+    quantity: entry.quantity,
+  }));
+  const packetaPrice = getPacketaPrice(packetaItems, country);
+  // Heavy enough that a real Packeta BOX (fixed compartment size)
+  // realistically wouldn't fit it — hide box points, keep staffed pickup
+  // points and GLS. See isCartTooBulkyForBox.
+  const tooBulkyForBox = isCartTooBulkyForBox(packetaItems);
 
   useEffect(() => {
     if (hasBulkyItem && shippingMethod && shippingMethod !== "gls") {
@@ -181,11 +202,33 @@ const Checkout = () => {
     }
   }, [hasBulkyItem, shippingMethod]);
 
+  // A previously chosen BOX point stops being valid the moment the cart
+  // gets too bulky for it (e.g. adding a second jacket after already
+  // picking a box).
+  useEffect(() => {
+    if (tooBulkyForBox && pickupPoint?.kind === "box") {
+      setPickupPoint(null);
+    }
+  }, [tooBulkyForBox, pickupPoint]);
+
+  // A previously chosen pickup point belongs to whichever country was
+  // selected at the time — switching countries invalidates it, since the
+  // point list itself is keyed by country (see mockPickupPoints).
+  useEffect(() => {
+    setPickupPoint(null);
+  }, [country]);
+
   const subtotal = itemsWithProducts.reduce(
     (sum, { entry }) => sum + entry.lineTotal,
     0
   );
-  const shippingPrice = selectedShipping?.price ?? 0;
+  // Packeta (pickupPoint-type) methods use the dynamic tier/country price;
+  // GLS keeps its own static price from data/shippingMethods.js for now.
+  const shippingPrice = !selectedShipping
+    ? 0
+    : selectedShipping.type === "pickupPoint"
+      ? packetaPrice
+      : selectedShipping.price;
   const total = subtotal + shippingPrice;
   const amountInCents = Math.round(total * 100);
 
@@ -229,6 +272,10 @@ const Checkout = () => {
             glsAddress={glsAddress}
             onGlsChange={handleGlsChange}
             restricted={hasBulkyItem}
+            country={country}
+            onCountryChange={setCountry}
+            packetaPrice={packetaPrice}
+            tooBulkyForBox={tooBulkyForBox}
           />
 
           <Button

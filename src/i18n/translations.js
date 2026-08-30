@@ -70,6 +70,7 @@ export const translations = {
         jackets: "Jackets",
         footwear: "Footwear",
         accessories: "Accessories",
+        bags: "Bags",
         beanbag: "Beanbags",
       },
       materialTypes: {
@@ -126,12 +127,19 @@ export const translations = {
       email: "Email",
       phone: "Phone",
       delivery: "Delivery",
+      deliveryCountry: "Delivery Country",
       reviewOrder: "Review Order",
       editDetails: "Edit Details",
       bulkyItemNotice:
         "Your order contains an oversized item — courier delivery (GLS) only.",
+      tooBulkyForBoxNotice:
+        "Your order is too large for a BOX — showing pickup points only.",
+      otherCountryNotice:
+        "We don't have automatic shipping set up outside Slovakia and Czechia yet. Send us an email or a message on Instagram and we'll sort out delivery together.",
       choosePickupPoint: "Choose Pickup Point",
       changePickupPoint: "Change Selection",
+      pointKindBox: "Box",
+      pointKindPickup: "Pickup point",
       street: "Street",
       city: "City",
       postalCode: "Postal Code",
@@ -154,6 +162,9 @@ export const translations = {
       placeOrder: "Place Order & Pay {amount}",
       processing: "Processing…",
       success: "Payment successful. Thank you.",
+      successHeading: "Thank you for your order",
+      successMessage:
+        "Your payment was successful and we're already preparing your order. A confirmation has been sent to your email.",
       error: "Something went wrong. Please try again.",
       backendMissing:
         "Couldn't reach the payment server. Make sure the /server backend is running with your Stripe keys.",
@@ -287,6 +298,7 @@ export const translations = {
         jackets: "Bundy",
         footwear: "Obuv",
         accessories: "Doplnky",
+        bags: "Tašky a batohy",
         beanbag: "Tulivak",
       },
       materialTypes: {
@@ -343,12 +355,19 @@ export const translations = {
       email: "E-mail",
       phone: "Telefón",
       delivery: "Doprava",
+      deliveryCountry: "Krajina doručenia",
       reviewOrder: "Skontrolovať objednávku",
       editDetails: "Upraviť údaje",
       bulkyItemNotice:
         "Vaša objednávka obsahuje veľký produkt — dostupné je len doručenie kuriérom GLS.",
+      tooBulkyForBoxNotice:
+        "Vaša objednávka je príliš veľká pre BOX — zobrazujeme len výdajné miesta.",
+      otherCountryNotice:
+        "Mimo Slovenska a Česka zatiaľ nemáme automatickú dopravu nastavenú. Napíšte nám e-mail alebo správu na Instagrame a dopravu spolu vyriešime.",
       choosePickupPoint: "Vybrať výdajné miesto",
       changePickupPoint: "Zmeniť výber",
+      pointKindBox: "Box",
+      pointKindPickup: "Výdajné miesto",
       street: "Ulica",
       city: "Mesto",
       postalCode: "PSČ",
@@ -371,6 +390,9 @@ export const translations = {
       placeOrder: "Objednať a zaplatiť {amount}",
       processing: "Spracúva sa…",
       success: "Platba prebehla úspešne. Ďakujeme.",
+      successHeading: "Ďakujeme za objednávku",
+      successMessage:
+        "Vaša platba prebehla úspešne a objednávku už pripravujeme. Potvrdenie sme poslali aj na váš e-mail.",
       error: "Niečo sa pokazilo. Skúste to prosím znova.",
       backendMissing:
         "Nepodarilo sa spojiť s platobným serverom. Uistite sa, že beží /server backend s vašimi Stripe kľúčmi.",

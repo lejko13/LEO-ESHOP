@@ -23,7 +23,7 @@ const crease_jacket_v2 = {
   colors: ["Black"],
   showSwatches: false,
   sizeChart: "A",
-  big: "A",
+  big: "B",
   delivery: {
     en: "Ships in 1-2 business days, delivery in 3-5 business days",
     sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",

@@ -15,7 +15,7 @@ const backpack_black = {
     en: "A padded, quilted backpack with adjustable straps and a drawstring top closure. Roomy enough for daily carry.",
     sk: "Vypchatý, prešívaný batoh s nastaviteľnými popruhmi a sťahovacím horným uzáverom. Dostatočne priestranný na každodenné nosenie.",
   },
-  category: "accessories",
+  category: "bags",
   sizes: ["One Size"],
   colors: ["Black"],
   showSwatches: false,

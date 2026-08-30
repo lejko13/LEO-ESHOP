@@ -21,7 +21,7 @@ const crease_zip_jacket_v1 = {
   colors: ["Black"],
   showSwatches: false,
   sizeChart: "A",
-  big: "A",
+  big: "B",
   delivery: {
     en: "Ships in 1-2 business days, delivery in 3-5 business days",
     sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",

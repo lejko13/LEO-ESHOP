@@ -20,7 +20,7 @@ const sweatpants_black_sprayed = {
   colors: ["Black"],
   showSwatches: false,
   sizeChart: "B",
-  big: "B",
+  big: "A",
   delivery: {
     en: "Ships in 1-2 business days, delivery in 3-5 business days",
     sk: "Expedicia do 1-2 pracovnych dni, dorucenie do 3-5 pracovnych dni",

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useLanguage } from "../../hooks/useLanguage.js";
 import { useCart } from "../../hooks/useCart.js";
@@ -58,6 +59,7 @@ const PaymentSection = ({
 }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
   const { clearCart } = useCart();
   const { t, language } = useLanguage();
   const [status, setStatus] = useState("idle"); // idle | processing | success | error
@@ -190,8 +192,15 @@ const PaymentSection = ({
         // PaymentIntent — no page reload, so nothing about this component
         // gets lost.
         setStatus("success");
-        clearCart();
         saveOrder(paymentIntent.id);
+        clearCart();
+        // Navigate to a dedicated confirmation page rather than relying on
+        // the "success" status above staying visible — clearCart() causes
+        // Checkout.jsx's own items.length === 0 check to immediately swap
+        // in the generic "your cart is empty" view on the next render,
+        // which would otherwise hide this confirmation before the shopper
+        // ever sees it.
+        navigate("/objednavka-prijata");
       }
     } catch {
       setStatus("error");

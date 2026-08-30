@@ -8,6 +8,7 @@
 // with black, then grey, then out through the rest of the spectrum. See
 // COLOR_ORDER in the generation script if this needs regenerating.
 
+import backpack_black from "./backpack_black/product.js";
 import beanbag_yankees from "./beanbag_yankees/product.js";
 import black_tee from "./black_tee/product.js";
 import black_waterprof_pants from "./black_waterprof_pants/product.js";
@@ -19,14 +20,17 @@ import crease_vest from "./crease_vest/product.js";
 import crease_zip_jacket_v1 from "./crease_zip_jacket_v1/product.js";
 import double_waist_sweatpants from "./double_waist_sweatpants/product.js";
 import flared_zip from "./flared_zip/product.js";
+import grass_bag from "./grass_bag/product.js";
 import hoodie_black_sprayed from "./hoodie_black_sprayed/product.js";
 import hoodie_double_hood from "./hoodie_double_hood/product.js";
+import mozaik_bag from "./mozaik_bag/product.js";
 import multi_cargo_pants from "./multi_cargo_pants/product.js";
 import pants_holes from "./pants_holes/product.js";
 import pocket_pants from "./pocket_pants/product.js";
 import sweatpants_black_sprayed from "./sweatpants_black_sprayed/product.js";
 import zip_hoodie from "./zip_hoodie/product.js";
 import zip_sweatpants from "./zip_sweatpants/product.js";
+import backpack_grey from "./backpack_grey/product.js";
 import grey_hoodie from "./grey_hoodie/product.js";
 import grey_sweatpants from "./grey_sweatpants/product.js";
 import grey_waterprof_pants from "./grey_waterprof_pants/product.js";
@@ -65,6 +69,7 @@ import yellow_hoodie from "./yellow_hoodie/product.js";
 import yellow_sweatpants from "./yellow_sweatpants/product.js";
 
 export const products = [
+  backpack_black,
   beanbag_yankees,
   black_tee,
   black_waterprof_pants,
@@ -76,14 +81,17 @@ export const products = [
   crease_zip_jacket_v1,
   double_waist_sweatpants,
   flared_zip,
+  grass_bag,
   hoodie_black_sprayed,
   hoodie_double_hood,
+  mozaik_bag,
   multi_cargo_pants,
   pants_holes,
   pocket_pants,
   sweatpants_black_sprayed,
   zip_hoodie,
   zip_sweatpants,
+  backpack_grey,
   grey_hoodie,
   grey_sweatpants,
   grey_waterprof_pants,
