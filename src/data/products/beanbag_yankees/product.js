@@ -15,7 +15,7 @@ const beanbag_yankees = {
     en: "Beanbag Cap — NY Yankees",
     sk: "Tulivak čiapka — NY Yankees",
   },
-  price: 380.0,
+ price: 400.0,
   currency: "EUR",
   description: {
     en: "An oversized, cap-shaped beanbag inspired by an NY Yankees cap.",

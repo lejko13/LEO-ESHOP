@@ -15,7 +15,7 @@ const beanbag_braves = {
     en: "Beanbag Cap — Atlanta Braves",
     sk: "Tulivak čiapka — Atlanta Braves",
   },
-  price: 380.0,
+   price: 400.0,
   currency: "EUR",
   description: {
     en: "An oversized, cap-shaped beanbag inspired by an Atlanta Braves cap — a statement piece for the room, not the wardrobe.",

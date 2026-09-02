@@ -9,7 +9,7 @@ const sweatpants_grey_sprayed = {
     en: "Sprayed Sweatpants",
     sk: "Postriekané tepláky",
   },
-  price: 85.0,
+  price: 90.0,
   currency: "EUR",
   description: {
     en: "Wide-leg sweatpants finished with a hand-sprayed, paint-splatter print, cut to match the Sprayed Hoodie.",
