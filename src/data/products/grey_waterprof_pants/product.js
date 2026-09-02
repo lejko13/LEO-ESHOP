@@ -10,7 +10,7 @@ const grey_waterprof_pants = {
     en: "Waterproof Parachute Pants",
     sk: "Nepremokavé parašutistické nohavice",
   },
-  price: 65.0,
+  price: 70.0,
   currency: "EUR",
   description: {
     en: "Wide, parachute-cut pants in a lightweight waterproof shell. Drawstring waist and adjustable cuffs at the ankle.",

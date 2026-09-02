@@ -12,7 +12,7 @@ const crease_puffer = {
     en: "Crease Puffer Jacket",
     sk: "Prešívaná bunda Crease",
   },
-  price: 270.0,
+  price: 290.0,
   currency: "EUR",
   description: {
     en: "A cropped puffer jacket with a crinkled, sculptural nylon finish, full front zip, and welt pockets.",

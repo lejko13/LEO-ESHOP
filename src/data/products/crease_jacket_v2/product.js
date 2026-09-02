@@ -12,7 +12,7 @@ const crease_jacket_v2 = {
     en: "Crease Jacket V2",
     sk: "Bunda Crease V2",
   },
-  price: 220.0,
+  price: 260.0,
   currency: "EUR",
   description: {
     en: "A cropped, hooded jacket with a crinkled, sculptural nylon finish and full front zip.",

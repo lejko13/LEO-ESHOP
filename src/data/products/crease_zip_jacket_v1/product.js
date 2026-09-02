@@ -10,7 +10,7 @@ const crease_zip_jacket_v1 = {
     en: "Crease Zip Jacket V1",
     sk: "Zipsová bunda Crease V1",
   },
-  price: 210.0,
+  price: 230.0,
   currency: "EUR",
   description: {
    en: "A cropped, hooded jacket with a crinkled, sculptural nylon finish and full front zip — the first version in the Crease line. WITHOUT FILLING.",

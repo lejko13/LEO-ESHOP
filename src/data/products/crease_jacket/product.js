@@ -8,7 +8,7 @@ const crease_jacket = {
     en: "Crease Pullover Jacket",
     sk: "Pulóverová bunda Crease",
   },
-  price: 200.0,
+  price: 220.0,
   currency: "EUR",
   description: {
     en: "A cropped pullover jacket with a crinkled, sculptural nylon finish and an oversized hood.",

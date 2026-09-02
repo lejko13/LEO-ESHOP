@@ -10,11 +10,12 @@ const mozaik_bag = {
     en: "Mosaic Tote Bag",
     sk: "Mozaiková taška",
   },
-  price: 200.0,
+  price: 250.0,
   currency: "EUR",
   description: {
-    en: "A tote bag in patchworked faux leather, pieced together with exposed metal grommets and rings.",
-    sk: "Taška z patchworkovej ekokože, poskladaná z kúskov spojených viditeľnými kovovými očkami a krúžkami.",
+  en: "A tote bag in patchworked recycled leather, pieced together with exposed metal grommets and rings.",
+
+sk: "Taška z patchworkovej recyklovanej kože, poskladaná z kúskov spojených viditeľnými kovovými očkami a krúžkami.",
   },
   features: {
     en: [

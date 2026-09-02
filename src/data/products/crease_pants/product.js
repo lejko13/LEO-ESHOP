@@ -10,7 +10,7 @@ const crease_pants = {
     en: "Crease Pants",
     sk: "Nohavice Crease",
   },
-  price: 100.0,
+  price: 110.0,
   currency: "EUR",
   description: {
     en: "Balloon-cut pants in the same crinkled nylon finish as the Crease jacket line, with a drawstring waist.",
