@@ -131,7 +131,12 @@ export const translations = {
       reviewOrder: "Review Order",
       editDetails: "Edit Details",
       bulkyItemNotice:
-        "Your order contains an oversized item — courier delivery (GLS) only.",
+        "Your order contains an oversized item (a tulivak beanbag) — the cover ships via whichever method you pick below, and the filling is sent separately, straight to an address.",
+      packetaBoxOversizedNotice:
+        "This item is oversized — please choose a pickup point in the Packeta widget, not a BOX. If you pick a BOX anyway, we'll redirect the parcel to the nearest pickup point.",
+      fillingAddressTitle: "Filling delivery address",
+      fillingAddressNotice:
+        "The beanbag cover is picked up at the point above — we'll send the filling separately, straight to this address.",
       tooBulkyForBoxNotice:
         "Your order is too large for a BOX — showing pickup points only.",
       otherCountryNotice:
@@ -171,6 +176,7 @@ export const translations = {
       errors: {
         required: "This field is required",
         invalidEmail: "Enter a valid email address",
+        invalidPhone: "Enter a valid phone number",
       },
     },
     about: {
@@ -359,7 +365,12 @@ export const translations = {
       reviewOrder: "Skontrolovať objednávku",
       editDetails: "Upraviť údaje",
       bulkyItemNotice:
-        "Vaša objednávka obsahuje veľký produkt — dostupné je len doručenie kuriérom GLS.",
+        "Vaša objednávka obsahuje nadrozmerný produkt (tulivak) — obal doručíme zvoleným spôsobom nižšie, výplň posielame samostatne priamo na adresu.",
+      packetaBoxOversizedNotice:
+        "Tento produkt je nadrozmerný — vo widgete Packeta si prosím vyberte výdajné miesto, nie BOX. Ak napriek tomu zvolíte BOX, zásielku presmerujeme na najbližšie výdajné miesto.",
+      fillingAddressTitle: "Adresa pre doručenie výplne",
+      fillingAddressNotice:
+        "Obal tulivaku si vyzdvihnete na mieste vyššie — výplň vám pošleme samostatným balíkom priamo na túto adresu.",
       tooBulkyForBoxNotice:
         "Vaša objednávka je príliš veľká pre BOX — zobrazujeme len výdajné miesta.",
       otherCountryNotice:
@@ -399,6 +410,7 @@ export const translations = {
       errors: {
         required: "Toto pole je povinné",
         invalidEmail: "Zadajte platnú e-mailovú adresu",
+        invalidPhone: "Zadajte platné telefónne číslo",
       },
     },
     about: {

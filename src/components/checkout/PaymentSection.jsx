@@ -49,7 +49,7 @@ const PaymentSection = ({
   shippingMethod,
   shippingLabel,
   pickupPoint,
-  glsAddress,
+  fillingAddress,
   isContactValid,
   isShippingValid,
   itemsWithProducts,
@@ -85,7 +85,7 @@ const PaymentSection = ({
           shippingMethod,
           shippingLabel,
           pickupPoint,
-          glsAddress,
+          fillingAddress,
           orderNote,
           items: itemsWithProducts.map(({ entry }) => ({
             kind: entry.kind,
@@ -134,10 +134,10 @@ const PaymentSection = ({
             orderNote,
             shippingMethod: shippingMethod ?? "",
             pickupPointId: pickupPoint?.id ?? "",
-            glsStreet: glsAddress?.street ?? "",
-            glsCity: glsAddress?.city ?? "",
-            glsPostalCode: glsAddress?.postalCode ?? "",
-            glsCountry: glsAddress?.country ?? "",
+            fillingStreet: fillingAddress?.street ?? "",
+            fillingCity: fillingAddress?.city ?? "",
+            fillingPostalCode: fillingAddress?.postalCode ?? "",
+            fillingCountry: fillingAddress?.country ?? "",
           },
         }),
       });
@@ -169,15 +169,19 @@ const PaymentSection = ({
               name: `${contact.firstName} ${contact.lastName}`.trim(),
               email: contact.email,
               phone: contact.phone,
-              address:
-                shippingMethod === "gls"
-                  ? {
-                      line1: glsAddress.street,
-                      city: glsAddress.city,
-                      postal_code: glsAddress.postalCode,
-                      country: glsAddress.country,
-                    }
-                  : undefined,
+              // Packeta is pickup-point based, so there's no home address
+              // to attach here as billing_details — except when the order
+              // has an oversized item, where the shopper did provide a
+              // real delivery address for the filling (see
+              // fillingAddress), so that one's used instead.
+              address: fillingAddress
+                ? {
+                    line1: fillingAddress.street,
+                    city: fillingAddress.city,
+                    postal_code: fillingAddress.postalCode,
+                    country: fillingAddress.country,
+                  }
+                : undefined,
             },
           },
         },

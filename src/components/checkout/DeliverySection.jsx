@@ -16,49 +16,60 @@ import { openPacketaWidget } from "../../utils/packetaWidget.js";
 const sectionLabelClass = "text-[10px] uppercase tracking-widest2 text-black/30 mb-3";
 const inputClass =
   "w-full border-b border-black/20 focus:border-black outline-none px-1 py-3 text-[13px] bg-transparent";
+const noticeClass =
+  "text-[11px] uppercase tracking-widest2 text-red-600 border border-red-600/40 p-3 leading-relaxed";
 
 // Shipping method cards reuse the exact selection pattern already used for
 // Size on the product page: bordered box, border-black + fill when active,
 // border-black/20 + hover otherwise. Deliberately not a new component style.
+// Packeta is the only shipping method now (GLS courier was removed) — this
+// still renders it as a "card" the shopper picks, both for visual/flow
+// consistency and so a second method could be added back here later
+// without restructuring the component.
 const DeliverySection = ({
   method,
   onMethodChange,
   pickupPoint,
   onPickupPointChange,
-  glsAddress,
-  onGlsChange,
-  restricted,
+  fillingAddress,
+  onFillingAddressChange,
+  bulky,
   country,
   onCountryChange,
   packetaPrice,
-  glsPrice,
+  oversizedPrice,
   tooBulkyForBox,
 }) => {
   const { t, pick, language } = useLanguage();
   const [panelOpen, setPanelOpen] = useState(false);
 
-  const availableMethods = getAvailableShippingMethods(restricted);
+  const availableMethods = getAvailableShippingMethods();
   const selected = getShippingMethod(method);
   const allPoints = selected?.pointsKey
     ? mockPickupPoints[selected.pointsKey]?.[country] ?? []
     : [];
   // A real Packeta BOX is a fixed-size compartment — once the cart is too
-  // heavy/bulky for one (see isCartTooBulkyForBox), only offer staffed
+  // heavy/bulky for one (see isCartTooBulkyForBox), or contains an
+  // oversized "C" item that can't go via BOX at all, only offer staffed
   // pickup points, which don't have that hard size limit.
-  const points = tooBulkyForBox
+  const hideBoxPoints = tooBulkyForBox || bulky;
+  const points = hideBoxPoints
     ? allPoints.filter((p) => p.kind !== "box")
     : allPoints;
 
-  // Packeta/GLS aren't actually wired up outside Slovakia/Czechia yet
-  // (see the TODOs at the top of data/shippingMethods.js) — rather than
-  // quote a price for a shipment we couldn't create, this asks the
-  // shopper to reach out directly so shipping can be arranged by hand.
+  // Packeta isn't actually wired up outside Slovakia/Czechia yet (see the
+  // TODO at the top of data/shippingMethods.js) — rather than quote a
+  // price for a shipment we couldn't create, this asks the shopper to
+  // reach out directly so shipping can be arranged by hand.
   const isOtherCountry = country === OTHER_COUNTRY_CODE;
 
   // With a real VITE_PACKETA_API_KEY set, open Packeta's own official widget
   // (a real, live picker — not our UI) instead of the placeholder panel.
   // Falls back to the mock list below when no key is configured, so the
-  // checkout keeps working during development.
+  // checkout keeps working during development. Note: unlike the mock panel
+  // above, the real widget can't be filtered down to pickup points only —
+  // that's why an oversized cart also gets the red notice below telling
+  // the shopper to avoid BOX themselves.
   const handleChoosePickupPoint = () => {
     if (PACKETA_WIDGET_ENABLED) {
       openPacketaWidget(PACKETA_API_KEY).then((point) => {
@@ -69,22 +80,20 @@ const DeliverySection = ({
     setPanelOpen(true);
   };
 
-  // Selecting a pickup-point method (Packeta) and picking the actual point
-  // used to be two separate clicks — pick the method card, then a second
-  // "choose pickup point" link below it. Now the method card itself opens
-  // the widget/panel immediately, so one click does both.
+  // Selecting the shipping method and picking the actual point used to be
+  // two separate clicks — pick the method card, then a second "choose
+  // pickup point" link below it. Now the method card itself opens the
+  // widget/panel immediately, so one click does both.
   const handleMethodClick = (m) => {
     onMethodChange(m.id);
-    if (m.type === "pickupPoint") {
-      handleChoosePickupPoint();
-    }
+    handleChoosePickupPoint();
   };
 
   return (
     <div className="mb-10">
       <p className={sectionLabelClass}>{t("checkout.delivery")}</p>
 
-      {restricted && (
+      {bulky && (
         <p className="text-[10px] uppercase tracking-widest2 text-black/40 mb-3">
           {t("checkout.bulkyItemNotice")}
         </p>
@@ -129,8 +138,7 @@ const DeliverySection = ({
         <>
           <div className="space-y-3">
             {availableMethods.map((m) => {
-              const price =
-                m.type === "pickupPoint" ? packetaPrice : glsPrice;
+              const price = bulky ? oversizedPrice : packetaPrice;
               return (
                 <button
                   key={m.id}
@@ -158,12 +166,18 @@ const DeliverySection = ({
             })}
           </div>
 
-          {selected?.type === "pickupPoint" && (
+          {selected && (
             <div className="mt-4">
-              {tooBulkyForBox && (
-                <p className="text-[10px] uppercase tracking-widest2 text-black/40 mb-3">
-                  {t("checkout.tooBulkyForBoxNotice")}
+              {bulky ? (
+                <p className={`${noticeClass} mb-4`}>
+                  {t("checkout.packetaBoxOversizedNotice")}
                 </p>
+              ) : (
+                tooBulkyForBox && (
+                  <p className="text-[10px] uppercase tracking-widest2 text-black/40 mb-3">
+                    {t("checkout.tooBulkyForBoxNotice")}
+                  </p>
+                )
               )}
               {pickupPoint ? (
                 <div className="border border-black/20 p-4">
@@ -204,41 +218,52 @@ const DeliverySection = ({
                   }}
                 />
               )}
-            </div>
-          )}
 
-          {selected?.type === "address" && (
-            <div className="mt-4 space-y-4">
-              <input
-                type="text"
-                placeholder={t("checkout.street")}
-                value={glsAddress.street}
-                onChange={(e) => onGlsChange("street", e.target.value)}
-                className={inputClass}
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder={t("checkout.city")}
-                  value={glsAddress.city}
-                  onChange={(e) => onGlsChange("city", e.target.value)}
-                  className={inputClass}
-                />
-                <input
-                  type="text"
-                  placeholder={t("checkout.postalCode")}
-                  value={glsAddress.postalCode}
-                  onChange={(e) => onGlsChange("postalCode", e.target.value)}
-                  className={inputClass}
-                />
-              </div>
-              <input
-                type="text"
-                placeholder={t("checkout.country")}
-                value={glsAddress.country}
-                onChange={(e) => onGlsChange("country", e.target.value)}
-                className={inputClass}
-              />
+              {/* The beanbag itself is picked up at the point above, but
+                  its filling can't go through a pickup point — it always
+                  ships separately, straight to an address. */}
+              {bulky && (
+                <div className="mt-6">
+                  <p className={sectionLabelClass}>
+                    {t("checkout.fillingAddressTitle")}
+                  </p>
+                  <p className="text-[10px] uppercase tracking-widest2 text-black/40 mb-4">
+                    {t("checkout.fillingAddressNotice")}
+                  </p>
+                  <div className="space-y-4">
+                    <input
+                      type="text"
+                      placeholder={t("checkout.street")}
+                      value={fillingAddress.street}
+                      onChange={(e) => onFillingAddressChange("street", e.target.value)}
+                      className={inputClass}
+                    />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <input
+                        type="text"
+                        placeholder={t("checkout.city")}
+                        value={fillingAddress.city}
+                        onChange={(e) => onFillingAddressChange("city", e.target.value)}
+                        className={inputClass}
+                      />
+                      <input
+                        type="text"
+                        placeholder={t("checkout.postalCode")}
+                        value={fillingAddress.postalCode}
+                        onChange={(e) => onFillingAddressChange("postalCode", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder={t("checkout.country")}
+                      value={fillingAddress.country}
+                      onChange={(e) => onFillingAddressChange("country", e.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </>

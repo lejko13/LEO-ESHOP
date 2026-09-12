@@ -3,32 +3,32 @@ import back from "./back.webp";
 import detail from "./detail.webp";
 import extra4 from "./extra4.webp";
 
-const black_waterprof_pants = {
-  id: "black_waterprof_pants",
-  code: "PT-01",
+const black_sweatpants = {
+  id: "black_sweatpants",
+  code: "PT-28",
   name: {
-    en: "Waterproof Parachute Pants",
-    sk: "Nepremokavé parašutistické nohavice",
+    en: "Essential Sweatpants",
+    sk: "Základné tepláky",
   },
-  price: 70.0,
+  price: 75.0,
   currency: "EUR",
   description: {
-    en: "Wide, parachute-cut pants in a lightweight waterproof shell. Drawstring waist and adjustable cuffs at the ankle.",
-    sk: "Široké nohavice v strihu parašutistov z ľahkého nepremokavého materiálu. Sťahovací pás a nastaviteľné lemy na členkoch.",
+    en: "Wide-leg sweatpants in heavyweight cotton fleece, cut to match the Essential Hoodie.",
+    sk: "Tepláky so širokou nohavicou z ťažkej bavlnenej teplákoviny, strihom ladiace so Základnou mikinou.",
   },
   features: {
     en: [
-      "Waterproof shell",
-      "Adjustable ankle cuffs",
+      "Heavyweight cotton fleece",
+      "Wide-leg cut",
       "Made in Slovakia",
     ],
     sk: [
-      "Nepremokavý povrch",
-      "Nastaviteľné lemy na členkoch",
+      "Ťažká bavlnená froté",
+      "Široký strih nohavíc",
       "Šité na Slovensku",
     ],
   },
-  category: "pants",
+  category: "tracksuit",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Black"],
   showSwatches: false,
@@ -46,4 +46,4 @@ const black_waterprof_pants = {
   },
 };
 
-export default black_waterprof_pants;
+export default black_sweatpants;

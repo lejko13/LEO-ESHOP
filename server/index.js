@@ -175,21 +175,27 @@ function orderTotalsTable({ subtotal, shippingPrice, total, currency }) {
   `;
 }
 
-function shippingBlock({ shippingLabel, pickupPoint, glsAddress }) {
+function shippingBlock({ shippingLabel, pickupPoint, fillingAddress }) {
   const addressLine = pickupPoint
     ? `${pickupPoint.name}, ${pickupPoint.address}, ${pickupPoint.city}`
-    : glsAddress
-      ? `${glsAddress.street}, ${glsAddress.city} ${glsAddress.postalCode}, ${glsAddress.country}`
-      : "";
+    : "";
+  // Only set for an oversized (tulivak) order — the cover goes to the
+  // pickup point above, but the filling can't go through one, so it ships
+  // separately to this address. Rendered as its own line rather than
+  // folded into addressLine so it's never confused with the pickup point.
+  const fillingLine = fillingAddress
+    ? `${fillingAddress.street}, ${fillingAddress.city} ${fillingAddress.postalCode}, ${fillingAddress.country}`
+    : "";
 
   return `
     ${label("Doprava")}
     ${paragraph(escapeHtml(shippingLabel || "-"))}
     ${addressLine ? `${label("Adresa / miesto vyzdvihnutia")}${paragraph(escapeHtml(addressLine))}` : ""}
+    ${fillingLine ? `${label("Adresa pre doručenie výplne")}${paragraph(escapeHtml(fillingLine))}` : ""}
   `;
 }
 
-function orderNotificationHtml({ contact = {}, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, glsAddress, orderNote, paymentIntentId }) {
+function orderNotificationHtml({ contact = {}, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress, orderNote, paymentIntentId }) {
   return emailShell(`
     ${label("Nová objednávka")}
     <p class="lf-heading" style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">${escapeHtml(`${contact.firstName ?? ""} ${contact.lastName ?? ""}`.trim() || "Zákazník")}</p>
@@ -198,14 +204,14 @@ function orderNotificationHtml({ contact = {}, items, subtotal, shippingPrice, t
     ${label("Položky")}
     ${orderItemsTable(items, currency)}
     ${orderTotalsTable({ subtotal, shippingPrice, total, currency })}
-    ${shippingBlock({ shippingLabel, pickupPoint, glsAddress })}
+    ${shippingBlock({ shippingLabel, pickupPoint, fillingAddress })}
     ${orderNote ? `${label("Poznámka k objednávke")}${paragraph(escapeHtml(orderNote))}` : ""}
     ${label("Stripe platba")}
     ${paragraph(escapeHtml(paymentIntentId ?? "-"))}
   `);
 }
 
-function orderConfirmationHtml({ contact = {}, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, glsAddress }) {
+function orderConfirmationHtml({ contact = {}, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress }) {
   return emailShell(`
     ${label("Ďakujeme za objednávku")}
     <p class="lf-heading" style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">Dobrý deň${contact.firstName ? `, ${escapeHtml(contact.firstName)}` : ""}.</p>
@@ -213,7 +219,7 @@ function orderConfirmationHtml({ contact = {}, items, subtotal, shippingPrice, t
     ${label("Položky")}
     ${orderItemsTable(items, currency)}
     ${orderTotalsTable({ subtotal, shippingPrice, total, currency })}
-    ${shippingBlock({ shippingLabel, pickupPoint, glsAddress })}
+    ${shippingBlock({ shippingLabel, pickupPoint, fillingAddress })}
   `);
 }
 
@@ -239,10 +245,10 @@ async function sendResendEmail({ to, subject, html, replyTo }) {
   }
 }
 
-async function sendOrderEmails({ paymentIntentId, contact, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, glsAddress, orderNote }) {
+async function sendOrderEmails({ paymentIntentId, contact, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress, orderNote }) {
   if (!isEmailConfigured) return;
 
-  const payload = { contact, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, glsAddress };
+  const payload = { contact, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress };
 
   await Promise.all([
     sendResendEmail({
@@ -340,7 +346,7 @@ app.post("/confirm-order", async (req, res) => {
     shippingMethod,
     shippingLabel,
     pickupPoint,
-    glsAddress,
+    fillingAddress,
     orderNote,
     items = [],
     subtotal,
@@ -381,7 +387,7 @@ app.post("/confirm-order", async (req, res) => {
           shipping_method: shippingMethod ?? null,
           shipping_label: shippingLabel ?? null,
           pickup_point: pickupPoint ?? null,
-          gls_address: glsAddress ?? null,
+          filling_address: fillingAddress ?? null,
 
           items,
           order_note: orderNote ?? null,
@@ -413,7 +419,7 @@ app.post("/confirm-order", async (req, res) => {
       currency,
       shippingLabel,
       pickupPoint,
-      glsAddress,
+      fillingAddress,
       orderNote,
     }).catch((err) => {
       console.error("Order email error:", err);
@@ -455,33 +461,6 @@ app.post("/create-packeta-shipment", async (req, res) => {
 
   return res.status(501).json({
     error: "Packeta shipment creation is not implemented yet.",
-  });
-});
-
-// --------------------------------------------------------------------------
-// GLS shipment creation
-// --------------------------------------------------------------------------
-//
-// Requires:
-// GLS_API_USERNAME
-// GLS_API_PASSWORD
-// GLS_CLIENT_ID
-//
-
-app.post("/create-gls-shipment", async (req, res) => {
-  const GLS_API_USERNAME = process.env.GLS_API_USERNAME;
-  const GLS_API_PASSWORD = process.env.GLS_API_PASSWORD;
-  const GLS_CLIENT_ID = process.env.GLS_CLIENT_ID;
-
-  if (!GLS_API_USERNAME || !GLS_API_PASSWORD || !GLS_CLIENT_ID) {
-    return res.status(501).json({
-      error:
-        "GLS is not configured. Add GLS_API_USERNAME, GLS_API_PASSWORD and GLS_CLIENT_ID to server/.env.",
-    });
-  }
-
-  return res.status(501).json({
-    error: "GLS shipment creation is not implemented yet.",
   });
 });
 

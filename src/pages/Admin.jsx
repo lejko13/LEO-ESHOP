@@ -204,11 +204,13 @@ const Admin = () => {
                       {order.pickup_point.city}
                     </p>
                   )}
-                  {order.gls_address && (
+                  {order.filling_address && (
                     <p className="text-black/50">
-                      {order.gls_address.street}, {order.gls_address.city}{" "}
-                      {order.gls_address.postalCode},{" "}
-                      {order.gls_address.country}
+                      {t("checkout.fillingAddressTitle")}:{" "}
+                      {order.filling_address.street},{" "}
+                      {order.filling_address.city}{" "}
+                      {order.filling_address.postalCode},{" "}
+                      {order.filling_address.country}
                     </p>
                   )}
                 </div>

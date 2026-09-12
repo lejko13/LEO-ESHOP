@@ -7,7 +7,13 @@ import { useState, useRef, useEffect } from "react";
 // from. `options` is an array of { value, label } — `label` can be plain
 // text or already-translated/picked text, this component doesn't know
 // about i18n itself.
-const CustomSelect = ({ value, onChange, options, className = "" }) => {
+// listClassName defaults to "w-full" (the dropdown matches the trigger
+// button's width) — pass a different width utility to override it (e.g.
+// a fixed width when the trigger itself is narrower than its longest
+// option, like ContactSection's phone country picker), rather than
+// appending on top of a hardcoded "w-full" that would otherwise conflict
+// with whatever width utility gets passed in.
+const CustomSelect = ({ value, onChange, options, className = "", listClassName = "w-full" }) => {
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
   const current = options.find((o) => o.value === value) ?? options[0];
@@ -29,13 +35,13 @@ const CustomSelect = ({ value, onChange, options, className = "" }) => {
   }, [open]);
 
   return (
-    <div ref={rootRef} className={`relative ${className}`}>
+    <div ref={rootRef} className={`relative h-full ${className}`}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="w-full flex items-center justify-between border-b border-black/20 hover:border-black focus:border-black outline-none px-1 py-3 text-[13px] leading-[1.2] font-normal bg-transparent transition-colors"
+        className="w-full h-full flex items-center justify-between border-b border-black/20 hover:border-black focus:border-black outline-none px-1 py-3 text-[13px] leading-[1.2] font-normal bg-transparent transition-colors"
       >
         <span className="truncate">{current?.label}</span>
         <svg
@@ -51,7 +57,7 @@ const CustomSelect = ({ value, onChange, options, className = "" }) => {
       {open && (
         <ul
           role="listbox"
-          className="absolute left-0 top-full mt-1 w-full min-w-[9rem] bg-white border border-black/10 z-20"
+          className={`absolute left-0 top-full mt-1 min-w-[9rem] bg-white border border-black/10 z-20 ${listClassName}`}
         >
           {options.map((o) => (
             <li key={o.value}>
@@ -63,7 +69,7 @@ const CustomSelect = ({ value, onChange, options, className = "" }) => {
                   onChange(o.value);
                   setOpen(false);
                 }}
-                className={`w-full text-left px-3 py-2.5 text-[12px] uppercase tracking-widest2 transition-colors ${
+                className={`w-full text-left px-3 py-2.5 text-[12px] uppercase tracking-widest2 whitespace-nowrap transition-colors ${
                   o.value === value
                     ? "text-black bg-black/[0.04]"
                     : "text-black/50 hover:text-black hover:bg-black/[0.04]"

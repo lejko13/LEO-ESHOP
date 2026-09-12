@@ -3,13 +3,14 @@
 // stays separate from Stripe/payment logic (Stripe only ever sees a final
 // amount + optional metadata, never carrier details).
 //
+// Packeta is the only shipping method (GLS courier was removed — every
+// order now goes out via a Packeta pickup point/BOX; an oversized item
+// additionally needs a separate filling address, see below).
+//
 // TODO(Packeta API): replace mockPickupPoints with a real widget/API call
 // (Packeta "Widget v6" or REST API) once API credentials are available.
 // Keep the point shape as { id, name, address, city } so PickupPointPanel
 // doesn't need to change.
-//
-// TODO(GLS API): if GLS offers address validation/autocomplete, wire it
-// into the street/city/postalCode/country fields in DeliverySection.jsx.
 
 export const shippingMethods = [
   {
@@ -19,21 +20,10 @@ export const shippingMethods = [
       en: "Pick up your parcel from a BOX or a partner store — choose which when picking your point.",
       sk: "Vyzdvihnite si zásielku z boxu alebo partnerskej predajne — vyberiete si pri výbere miesta.",
     },
-    price: null, // dynamic, see getPacketaPrice — kept null so a stale
-    // static price is never accidentally read for this method.
+    price: null, // dynamic, see getPacketaPrice / getOversizedShippingPrice
+    // — kept null so a stale static price is never accidentally read.
     type: "pickupPoint",
     pointsKey: "packeta",
-  },
-  {
-    id: "gls",
-    name: { en: "GLS Courier", sk: "GLS kuriér" },
-    description: {
-      en: "Delivered by courier straight to your address.",
-      sk: "Doručenie kuriérom priamo na vašu adresu.",
-    },
-    price: null, // dynamic, see getGlsPrice — kept null so a stale static
-    // price is never accidentally read for this method.
-    type: "address",
   },
 ];
 
@@ -73,16 +63,19 @@ export const getShippingMethod = (id) =>
 // A product carries a `big` size class:
 //   "A" - classic (bags, hoodies, tracksuits, pants, t-shirts)
 //   "B" - bigger (jackets)
-//   "C" - oversized (beanbags) - too large for a pickup box or point,
-//         courier (GLS) only.
-// When any cart item is flagged "C", only address-based delivery (GLS)
-// should be offered. Checkout.jsx computes the flag from cart contents and
-// passes it down; this helper just applies it to the method list so the
-// rule lives in one place instead of being duplicated per component.
-export const getAvailableShippingMethods = (restrictToAddressOnly) =>
-  restrictToAddressOnly
-    ? shippingMethods.filter((m) => m.type === "address")
-    : shippingMethods;
+//   "C" - oversized (beanbags/tulivak) - the outer cover still goes out
+//         via Packeta (see below), but the filling always ships
+//         separately, straight to an address the shopper provides (see
+//         fillingAddress in Checkout.jsx), since it can't go through a
+//         pickup point at all. A BOX specifically still isn't realistic
+//         for the cover, so the UI steers shoppers away from it
+//         (DeliverySection.jsx's oversized notice) even though — unlike
+//         the mock pickup-point list — the real Packeta widget can't be
+//         filtered to hide BOX points outright.
+// Checkout.jsx computes hasBulkyItem from cart contents (true whenever any
+// item has big === "C") and both DeliverySection and the pricing below key
+// off of it.
+export const getAvailableShippingMethods = () => shippingMethods;
 
 // --------------------------------------------------------------------------
 // Cross-border Packeta pricing
@@ -90,10 +83,10 @@ export const getAvailableShippingMethods = (restrictToAddressOnly) =>
 //
 // Packeta BOX and Packeta Pickup Point share one price (rather than each
 // keeping its own flat rate) that depends on:
-//   1. how "heavy" the cart is (see WEIGHT_POINTS below) - "C" (oversized)
-//      items aren't offered Packeta at all (GLS only, see
-//      restrictToAddressOnly above; pricing for that case is still
-//      undecided on purpose)
+//   1. how "heavy" the cart is (see WEIGHT_POINTS below) - this tiered
+//      price only applies to a non-oversized cart; once any "C" item is
+//      present, getOversizedShippingPrice below takes over instead
+//      regardless of what this would have scored.
 //   2. the destination country
 //
 // Weight scoring: each "A" item is worth 1 point, each "B" item (bigger,
@@ -110,13 +103,9 @@ export const getAvailableShippingMethods = (restrictToAddressOnly) =>
 //   4-7 points  -> SK 5 EUR, CZ 7 EUR
 //   8+ points   -> SK 8 EUR, CZ 10 EUR
 //
-// GLS is a flat rate per destination country (not weight-tiered like
-// Packeta) - see getGlsPrice below. This also covers oversized ("C") items,
-// which are GLS-only.
-//
-// Only Slovakia and Czechia are real, priced options - Packeta/GLS aren't
+// Only Slovakia and Czechia are real, priced options - Packeta isn't
 // actually wired up for Hungary/Romania (there's no real API integration
-// yet at all, see the TODOs above), so rather than quote a made-up price
+// yet at all, see the TODO above), so rather than quote a made-up price
 // for a shipment that couldn't actually be created, DELIVERY_COUNTRIES
 // includes an "OTHER" pseudo-option that DeliverySection.jsx renders as a
 // "get in touch" message instead of a price - see OTHER_COUNTRY_CODE.
@@ -150,16 +139,22 @@ export const getPacketaPrice = (items = [], countryCode = "SK") => {
   return countryCode === "SK" ? 8 : 10;
 };
 
-// GLS courier price by destination country - flat rate, doesn't depend on
-// cart weight/size (unlike Packeta). Covers oversized ("C") items too,
-// since GLS is the only option offered for those.
-export const getGlsPrice = (countryCode = "SK") =>
-  countryCode === "SK" ? 15 : 25;
+// Flat rate for an order containing an oversized ("C") item (tulivak
+// beanbag), charged instead of the normal tiered Packeta price above —
+// the extra cost is for splitting the order into more packages (the
+// filling always ships separately to an address, see fillingAddress in
+// Checkout.jsx), not for a different carrier. It's a flat "this order
+// needs special handling" fee rather than a per-unit rate, so it doesn't
+// change if the cart has one tulivak or several.
+export const getOversizedShippingPrice = (countryCode = "SK") =>
+  countryCode === "SK" ? 10 : 15;
 
 // A real Packeta BOX is a fixed-size compartment — fine for a handful of
 // light items, but a cart heavy/bulky enough to land in the top price tier
 // (8+ weight points — e.g. two or more jackets) realistically doesn't fit
 // one. A staffed pickup point (Packeta Point, partner store) doesn't have
 // that hard limit, so this only hides `kind: "box"` points, not Packeta
-// as a whole — see DeliverySection.jsx.
+// as a whole — see DeliverySection.jsx. (An oversized "C" item also rules
+// out BOX, for a different reason — the item itself, not cart weight — see
+// DeliverySection.jsx's own hasBulkyItem-based filtering for that case.)
 export const isCartTooBulkyForBox = (items = []) => cartWeightScore(items) > 7;

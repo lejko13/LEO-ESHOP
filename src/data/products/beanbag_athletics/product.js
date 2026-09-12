@@ -5,9 +5,10 @@ import gallery4 from "./gallery4.webp";
 import gallery5 from "./gallery5.webp";
 import gallery6 from "./gallery6.webp";
 
-// Oversized, heavy — courier delivery only. See `big` below and
-// getAvailableShippingMethods() in data/shippingMethods.js for how this
-// restricts Checkout to GLS.
+// Oversized, heavy — see `big` below. Checkout still ships this via
+// Packeta (see hasBulkyItem in Checkout.jsx), just with special
+// pricing/handling: the filling always ships separately to an address,
+// since it can't go through a Packeta pickup point.
 const beanbag_athletics = {
   id: "beanbag_athletics",
   code: "BB-03",
@@ -15,7 +16,7 @@ const beanbag_athletics = {
     en: "Beanbag Cap — Oakland A's",
     sk: "Tulivak čiapka — Oakland A's",
   },
-   price: 380.0,
+   price: 400.0,
   currency: "EUR",
   description: {
     en: "An oversized, cap-shaped beanbag inspired by an Oakland A's cap — a statement piece for the room, not the wardrobe.",

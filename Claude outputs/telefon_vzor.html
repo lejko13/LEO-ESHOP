@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Vzor zarovnania — Telefón</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    background: #fff;
+    color: #0a0a0a;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 500px; margin: 0 auto 60px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: #999; margin: 0 0 8px; }
+  p.note { font-size: 12px; color: #777; margin: 0 0 16px; line-height: 1.5; }
+
+  /* presne tie isté hodnoty ako v kóde: grid-cols-[11rem_1fr] gap-2 */
+  .row {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 0.5rem; /* gap-2 */
+  }
+
+  /* wrapper okolo selectu — relative + h-full (oprava) */
+  .select-wrap {
+    position: relative;
+    height: 100%;
+  }
+
+  .select-btn {
+    width: 100%;
+    height: 100%; /* oprava: predtým chýbalo, tlačidlo malo len výšku podľa obsahu */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    border-bottom: 1px solid rgba(10,10,10,0.2);
+    outline: none;
+    background: transparent;
+    padding: 12px 4px; /* px-1 py-3 */
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 400;
+    cursor: pointer;
+    font-family: inherit;
+    color: #0a0a0a;
+  }
+  .select-btn svg { margin-left: 6px; flex-shrink: 0; }
+
+  .phone-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgba(10,10,10,0.2);
+    outline: none;
+    background: transparent;
+    padding: 12px 4px; /* px-1 py-3 */
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 400;
+    font-family: inherit;
+    color: #0a0a0a;
+  }
+  .phone-input::placeholder { color: rgba(10,10,10,0.35); }
+
+  /* --- ukážka POKAZENEJ verzie (bez h-full na tlačidle) --- */
+  .select-btn.broken {
+    height: auto; /* toto spôsobovalo bug: tlačidlo malo výšku len podľa obsahu */
+  }
+
+  .label-good { color: #16794f; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 10px; }
+  .label-bad { color: #b3261e; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+    <h2>Predtým (chyba)</h2>
+    <p class="note">Obal okolo selectu (`.relative`) sa v grid riadku naťahoval správne, ale samotné tlačidlo vnútri malo výšku len podľa vlastného obsahu — preto jeho spodná čiara sedela vyššie ako pri telefónnom inpute.</p>
+    <div class="row">
+      <div class="select-wrap">
+        <button type="button" class="select-btn broken">
+          <span>🇸🇰 +421 Slovensko</span>
+          <svg width="9" height="6" viewBox="0 0 9 6"><path d="M1 1l3.5 3.5L8 1" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+        </button>
+      </div>
+      <input class="phone-input" type="tel" placeholder="Telefón">
+    </div>
+    <div class="label-bad">✗ čiary nesedia na rovnakej výške</div>
+  </div>
+
+  <div class="wrap">
+    <h2>Teraz (oprava)</h2>
+    <p class="note">Tlačidlo má navyše `height: 100%` (h-full), takže sa naťahuje presne na výšku svojho obalu — obe spodné čiary teraz ležia na tej istej vodorovnej úrovni.</p>
+    <div class="row">
+      <div class="select-wrap">
+        <button type="button" class="select-btn">
+          <span>🇸🇰 +421 Slovensko</span>
+          <svg width="9" height="6" viewBox="0 0 9 6"><path d="M1 1l3.5 3.5L8 1" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+        </button>
+      </div>
+      <input class="phone-input" type="tel" placeholder="Telefón">
+    </div>
+    <div class="label-good">✓ presne takto by to malo vyzerať u teba po refreshi</div>
+  </div>
+
+</body>
+</html>

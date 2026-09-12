@@ -5,9 +5,10 @@ import gallery4 from "./gallery4.webp";
 import gallery5 from "./gallery5.webp";
 import gallery6 from "./gallery6.webp";
 
-// Oversized, heavy — courier delivery only. See `big` below and
-// getAvailableShippingMethods() in data/shippingMethods.js for how this
-// restricts Checkout to GLS.
+// Oversized, heavy — see `big` below. Checkout still ships this via
+// Packeta (see hasBulkyItem in Checkout.jsx), just with special
+// pricing/handling: the filling always ships separately to an address,
+// since it can't go through a Packeta pickup point.
 const beanbag_braves = {
   id: "beanbag_braves",
   code: "BB-01",

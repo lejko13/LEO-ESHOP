@@ -10,6 +10,8 @@
 
 import backpack_black from "./backpack_black/product.js";
 import beanbag_yankees from "./beanbag_yankees/product.js";
+import black_hoodie from "./black_hoodie/product.js";
+import black_sweatpants from "./black_sweatpants/product.js";
 import black_tee from "./black_tee/product.js";
 import black_waterprof_pants from "./black_waterprof_pants/product.js";
 import crease_jacket from "./crease_jacket/product.js";
@@ -30,6 +32,8 @@ import pocket_pants from "./pocket_pants/product.js";
 import sweatpants_black_sprayed from "./sweatpants_black_sprayed/product.js";
 import zip_hoodie from "./zip_hoodie/product.js";
 import zip_sweatpants from "./zip_sweatpants/product.js";
+import white_hoodie from "./white_hoodie/product.js";
+import white_sweatpants from "./white_sweatpants/product.js";
 import backpack_grey from "./backpack_grey/product.js";
 import grey_hoodie from "./grey_hoodie/product.js";
 import grey_sweatpants from "./grey_sweatpants/product.js";
@@ -71,6 +75,8 @@ import yellow_sweatpants from "./yellow_sweatpants/product.js";
 export const products = [
   backpack_black,
   beanbag_yankees,
+  black_hoodie,
+  black_sweatpants,
   black_tee,
   black_waterprof_pants,
   crease_jacket,
@@ -91,6 +97,8 @@ export const products = [
   sweatpants_black_sprayed,
   zip_hoodie,
   zip_sweatpants,
+  white_hoodie,
+  white_sweatpants,
   backpack_grey,
   grey_hoodie,
   grey_sweatpants,
