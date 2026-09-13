@@ -37,7 +37,7 @@ export const SELLER = {
   vatNote: "Nie je platcom DPH.",
   registration:
     "Živnostník zapísaný v Živnostenskom registri — Okresný úrad Kežmarok, č. živnostenského registra: 730-23517.",
-  email: "hello@leofudaly.com",
+  email: "leo.fudaly@gmail.com",
   web: "www.leofudaly.com",
 };
 

@@ -86,10 +86,6 @@ function App() {
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/terms" element={<Legal slug="terms" />} />
                 <Route path="/privacy" element={<Legal slug="privacy" />} />
-                <Route
-                  path="/accessibility"
-                  element={<Legal slug="accessibility" />}
-                />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>

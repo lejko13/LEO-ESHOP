@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../hooks/useLanguage.js";
+import { BUSINESS } from "../../data/business.js";
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -21,7 +22,6 @@ const Footer = () => {
     { label: t("nav.contact"), to: "/contact" },
     { label: t("footer.terms"), to: "/terms" },
     { label: t("footer.privacy"), to: "/privacy" },
-    { label: t("footer.accessibility"), to: "/accessibility" },
     // { label: t("footer.orderStatus"), to: "/order-status" },
   ];
 
@@ -44,6 +44,37 @@ const Footer = () => {
         <span className="text-[10px] uppercase tracking-widest2 text-black/40 whitespace-nowrap">
           &copy; {new Date().getFullYear()} {t("footer.copyright")}
         </span>
+      </div>
+
+      {/* Legally required business identification — name, address, IČO/DIČ,
+          contact — kept as its own quiet row beneath the nav links rather
+          than mixed into them, since this is identity info, not navigation. */}
+      <div className="border-t border-black/5 px-5 md:px-8 py-4">
+        <div className="flex flex-wrap justify-center md:justify-start items-center gap-x-2 gap-y-1 text-[9px] uppercase tracking-widest2 text-black/40 text-center md:text-left">
+          <span>{BUSINESS.legalName}</span>
+          <span aria-hidden="true">&middot;</span>
+          <span>IČO: {BUSINESS.ico}</span>
+          <span aria-hidden="true">&middot;</span>
+          <span>DIČ: {BUSINESS.dic}</span>
+          <span aria-hidden="true">&middot;</span>
+          <a
+            href={`mailto:${BUSINESS.email}`}
+            className="hover:text-black normal-case tracking-normal"
+          >
+            {BUSINESS.email}
+          </a>
+          {BUSINESS.phone && (
+            <>
+              <span aria-hidden="true">&middot;</span>
+              <a
+                href={`tel:${BUSINESS.phone}`}
+                className="hover:text-black normal-case tracking-normal"
+              >
+                {BUSINESS.phone}
+              </a>
+            </>
+          )}
+        </div>
       </div>
     </footer>
   );

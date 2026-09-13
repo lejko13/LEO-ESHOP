@@ -19,7 +19,6 @@ export const translations = {
       contact: "Contact",
       terms: "Terms",
       privacy: "Privacy",
-      accessibility: "Accessibility",
       orderStatus: "Order Status",
       copyright: "LEO FUDALY",
     },
@@ -187,6 +186,8 @@ export const translations = {
     },
     contact: {
       title: "Contact",
+      intro:
+        "Write to us with a question, feedback, or a complaint. If you'd like something made to order — a custom design, size, or adjustment — upload a reference photo, describe what you have in mind, and we'll get back to you.",
       name: "Name",
       email: "Email",
       phone: "Phone (optional)",
@@ -255,7 +256,6 @@ export const translations = {
       contact: "Kontakt",
       terms: "Podmienky",
       privacy: "Súkromie",
-      accessibility: "Prístupnosť",
       orderStatus: "Stav objednávky",
       copyright: "LEO FUDALY",
     },
@@ -423,6 +423,8 @@ export const translations = {
     },
     contact: {
       title: "Kontakt",
+      intro:
+        "Napíšte nám s otázkou, spätnou väzbou alebo reklamáciou. Ak máte záujem o kus na mieru — vlastný dizajn, rozmer alebo úpravu — nahrajte referenčnú fotku, opíšte čo si predstavujete, a ozveme sa vám.",
       name: "Meno",
       email: "E-mail",
       phone: "Telefón (voliteľné)",

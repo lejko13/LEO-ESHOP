@@ -10,9 +10,12 @@ const Contact = () => {
 
   return (
     <div className="max-w-md mx-auto px-5 py-24">
-      <h1 className="text-[11px] uppercase tracking-widest2 text-black/50 mb-8">
+      <h1 className="text-[11px] uppercase tracking-widest2 text-black/50 mb-4">
         {t("contact.title")}
       </h1>
+      <p className="text-[13px] leading-relaxed text-black/60 mb-8">
+        {t("contact.intro")}
+      </p>
       <ContactForm />
     </div>
   );

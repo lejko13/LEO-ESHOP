@@ -92,8 +92,12 @@ const GateOverlay = ({ onUnlock }) => {
 
         {mode === "contact" ? (
           <>
-            <p className="text-[11px] uppercase tracking-widest2 text-black/40 mt-6 mb-8">
+            <p className="text-[11px] uppercase tracking-widest2 text-black/40 mt-6 mb-3">
               {t("gate.contactHeading")}
+            </p>
+
+            <p className="text-[12px] leading-relaxed text-black/50 mb-6 text-left">
+              {t("contact.intro")}
             </p>
 
             <div className="text-left">
