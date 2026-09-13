@@ -338,22 +338,28 @@ export default async function handler(req, res) {
     }
 
     // Best-effort — a failed email should never undo the fact that the
-    // order was already saved successfully above.
-    sendOrderEmails({
-      paymentIntentId,
-      contact,
-      items,
-      subtotal,
-      shippingPrice,
-      total,
-      currency,
-      shippingLabel,
-      pickupPoint,
-      fillingAddress,
-      orderNote,
-    }).catch((err) => {
+    // order was already saved successfully above. IMPORTANT: this must be
+    // awaited. Vercel freezes a serverless function's execution as soon as
+    // the response is sent, so a fire-and-forget call here would get its
+    // in-flight Resend request cut off mid-air (intermittently, depending
+    // on timing) instead of ever completing.
+    try {
+      await sendOrderEmails({
+        paymentIntentId,
+        contact,
+        items,
+        subtotal,
+        shippingPrice,
+        total,
+        currency,
+        shippingLabel,
+        pickupPoint,
+        fillingAddress,
+        orderNote,
+      });
+    } catch (err) {
       console.error("Order email error:", err);
-    });
+    }
 
     return res.status(200).json({
       ok: true,
