@@ -172,7 +172,7 @@ export const translations = {
         "Your payment was successful and we're already preparing your order. A confirmation has been sent to your email.",
       error: "Something went wrong. Please try again.",
       backendMissing:
-        "Couldn't reach the payment server. Make sure the /server backend is running with your Stripe keys.",
+        "Couldn't reach the payment server. Check that STRIPE_SECRET_KEY is set in your hosting provider's environment variables.",
       errors: {
         required: "This field is required",
         invalidEmail: "Enter a valid email address",
@@ -408,7 +408,7 @@ export const translations = {
         "Vaša platba prebehla úspešne a objednávku už pripravujeme. Potvrdenie sme poslali aj na váš e-mail.",
       error: "Niečo sa pokazilo. Skúste to prosím znova.",
       backendMissing:
-        "Nepodarilo sa spojiť s platobným serverom. Uistite sa, že beží /server backend s vašimi Stripe kľúčmi.",
+        "Nepodarilo sa spojiť s platobným serverom. Skontrolujte, že máte STRIPE_SECRET_KEY nastavený v premenných prostredia u hostingu.",
       errors: {
         required: "Toto pole je povinné",
         invalidEmail: "Zadajte platnú e-mailovú adresu",

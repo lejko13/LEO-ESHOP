@@ -15,17 +15,21 @@ export const STRIPE_PUBLISHABLE_KEY =
 // In production (Vercel), the backend now lives at /api/create-payment-intent
 // and /api/confirm-order — plain Vercel Serverless Functions on the SAME
 // domain as the frontend (see api/create-payment-intent.js and
-// api/confirm-order.js), the same way api/send-email.js already works. So
-// in production leave VITE_STRIPE_API_URL unset entirely: this then
-// defaults to "" (empty string), which makes PaymentSection.jsx's
-// `${STRIPE_API_URL}/create-payment-intent` resolve to the relative path
-// "/create-payment-intent" on whatever domain the page is served from —
+// api/confirm-order.js), the same way api/send-email.js already works.
+// Vercel always serves files under /api/ at a URL path that keeps the
+// /api/ prefix (api/create-payment-intent.js -> /api/create-payment-intent),
+// so the default below is "/api", NOT "" — leave VITE_STRIPE_API_URL unset
+// entirely in production and PaymentSection.jsx's
+// `${STRIPE_API_URL}/create-payment-intent` resolves to the relative path
+// "/api/create-payment-intent" on whatever domain the page is served from —
 // exactly what's needed, no separate hosting required.
 //
 // For local development only: `npm run dev` runs Vite's dev server, which
 // does NOT run /api functions (those only run under `vercel dev`, or once
 // deployed). The old standalone server/index.js (a separate Express app,
 // started with `node server/index.js` from the /server folder) still
-// works for local testing — if you use it, set VITE_STRIPE_API_URL in your
-// local .env to "http://localhost:4242" to point at it.
-export const STRIPE_API_URL = import.meta.env.VITE_STRIPE_API_URL || "";
+// works for local testing, and defines its routes at the root (e.g.
+// /create-payment-intent, no /api/ prefix) — if you use it, set
+// VITE_STRIPE_API_URL in your local .env to "http://localhost:4242" (no
+// trailing /api) to point at it.
+export const STRIPE_API_URL = import.meta.env.VITE_STRIPE_API_URL || "/api";
