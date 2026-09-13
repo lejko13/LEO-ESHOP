@@ -164,6 +164,13 @@ const Checkout = () => {
   // shipping the order somewhere else.
   const [phoneCountry, setPhoneCountry] = useState("SK");
   const [touched, setTouched] = useState({});
+  // Becomes true the first time the shopper tries to move on from an
+  // incomplete form — before that, no error/notice is shown (nobody's
+  // failed anything yet). Once true, the review button attempt also marks
+  // every contact field touched (see below) so ContactSection's per-field
+  // errors light up immediately, and the shipping notice below the
+  // Delivery section becomes visible for whatever it is that's missing.
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
 
   const [shippingMethod, setShippingMethod] = useState(null);
   const [pickupPoint, setPickupPoint] = useState(null);
@@ -328,11 +335,30 @@ const Checkout = () => {
             tooBulkyForBox={tooBulkyForBox}
           />
 
+          {attemptedSubmit && !isShippingValid && (
+            <p className="text-[11px] uppercase tracking-widest2 text-red-600 border border-red-600/40 p-3 leading-relaxed mb-4">
+              {!selectedShipping || !pickupPoint
+                ? t("checkout.errors.selectPickupPoint")
+                : t("checkout.errors.fillingAddressRequired")}
+            </p>
+          )}
+
           <Button
             type="button"
-            disabled={!isContactValid || !isShippingValid}
-            onClick={() => setStep("review")}
-            className="w-full disabled:opacity-40"
+            onClick={() => {
+              if (isContactValid && isShippingValid) {
+                setStep("review");
+                return;
+              }
+              // Not ready yet — rather than just sitting there disabled
+              // with no explanation, reveal exactly what's wrong: mark
+              // every contact field touched so ContactSection's per-field
+              // errors show up immediately, and flip on the shipping
+              // notice above for whatever's missing there.
+              setAttemptedSubmit(true);
+              setTouched({ firstName: true, lastName: true, email: true, phone: true });
+            }}
+            className="w-full"
           >
             {t("checkout.reviewOrder")}
           </Button>

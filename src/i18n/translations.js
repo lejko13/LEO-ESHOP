@@ -177,6 +177,8 @@ export const translations = {
         required: "This field is required",
         invalidEmail: "Enter a valid email address",
         invalidPhone: "Enter a valid phone number",
+        selectPickupPoint: "Please choose a shipping method and pickup point.",
+        fillingAddressRequired: "Please fill in the filling delivery address.",
       },
     },
     about: {
@@ -411,6 +413,8 @@ export const translations = {
         required: "Toto pole je povinné",
         invalidEmail: "Zadajte platnú e-mailovú adresu",
         invalidPhone: "Zadajte platné telefónne číslo",
+        selectPickupPoint: "Vyberte spôsob dopravy a výdajné miesto.",
+        fillingAddressRequired: "Vyplňte adresu pre doručenie výplne.",
       },
     },
     about: {

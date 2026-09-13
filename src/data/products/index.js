@@ -9,6 +9,7 @@
 // COLOR_ORDER in the generation script if this needs regenerating.
 
 import backpack_black from "./backpack_black/product.js";
+import test_product from "./test_product/product.js";
 import beanbag_yankees from "./beanbag_yankees/product.js";
 import black_hoodie from "./black_hoodie/product.js";
 import black_sweatpants from "./black_sweatpants/product.js";
@@ -136,6 +137,7 @@ export const products = [
   orange_sweatpants,
   yellow_hoodie,
   yellow_sweatpants,
+  test_product,
 ];
 
 export const getProductById = (id) => products.find((p) => p.id === id);

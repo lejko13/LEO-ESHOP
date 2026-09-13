@@ -31,9 +31,11 @@ const inputClass =
 // always shows "coming soon" regardless of eligibility, since that would be
 // misleading once the site is actually deployed.
 //
-// TODO(Stripe API): swap STRIPE_PUBLISHABLE_KEY / STRIPE_SECRET_KEY (see
-// src/config/stripe.js and server/.env) for real keys when ready. No other
-// code changes should be needed.
+// TODO(Stripe API): swap to real live keys when ready — the PUBLISHABLE
+// key in Vercel's VITE_STRIPE_PUBLISHABLE_KEY env var (see
+// src/config/stripe.js) and the SECRET key in Vercel's STRIPE_SECRET_KEY
+// env var (used by api/create-payment-intent.js and api/confirm-order.js).
+// No other code changes should be needed.
 // Note: order items/subtotal/shipping/total are shown once, in the review
 // step's <OrderSummary> in Checkout.jsx (before this component even mounts)
 // — not duplicated here. They're passed down again (itemsWithProducts/

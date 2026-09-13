@@ -1,72 +1,42 @@
-// LOCAL-DEV-ONLY backend. In production this is NOT what runs — Vercel
-// never executes this file (it's a plain Express app with app.listen(),
-// and Vercel only auto-deploys files under /api). The real, deployed
-// version of every endpoint here lives in api/create-payment-intent.js,
-// api/confirm-order.js and api/create-packeta-shipment.js instead, which
-// run as Vercel Serverless Functions on the same domain as the frontend.
+// Vercel Serverless Function — deploys automatically alongside the
+// frontend on the same domain, no separate hosting needed (same pattern
+// as api/send-email.js). Replaces the old standalone server/index.js
+// version of this endpoint, which Vercel never actually ran (it's a plain
+// Express app with app.listen(), and Vercel only auto-deploys files that
+// live directly under /api).
 //
-// This file is kept only so `node server/index.js` still works for local
-// testing without needing `vercel dev` — if you use it, remember to set
-// VITE_STRIPE_API_URL=http://localhost:4242 in the project's root .env so
-// the frontend actually points at it (see src/config/stripe.js).
+// Called by the frontend (PaymentSection.jsx) right after Stripe confirms
+// the payment succeeded. The backend independently re-checks the payment
+// with Stripe before saving the order into Supabase — never trusts the
+// frontend's word alone that a payment went through.
 //
-// Minimal backend that creates Stripe PaymentIntents on demand for the
-// storefront's /checkout page.
-//
-// IMPORTANT:
-// Secret keys must exist ONLY in server/.env
-// Never hardcode real secret keys in this file.
+// Required env vars (set in Vercel: Project -> Settings -> Environment
+// Variables, Production scope — none prefixed with VITE_, so none of
+// these ever reach the browser bundle):
+//   STRIPE_SECRET_KEY
+//   SUPABASE_URL
+//   SUPABASE_SERVICE_ROLE_KEY
+//   RESEND_API_KEY   (optional — order emails are best-effort; omitting
+//                      this just means no confirmation emails go out)
 
-import "dotenv/config";
-import express from "express";
-import cors from "cors";
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 
-const PORT = process.env.PORT || 4242;
-
-// --------------------------------------------------------------------------
-// Environment variables
-// --------------------------------------------------------------------------
-
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
-
-if (!STRIPE_SECRET_KEY) {
-  throw new Error(
-    "Missing STRIPE_SECRET_KEY. Add it to server/.env before starting the server."
-  );
-}
-
 const SUPABASE_URL = process.env.SUPABASE_URL || "";
-const SUPABASE_SERVICE_ROLE_KEY =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 
 const isOrderStorageConfigured = Boolean(
   SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
 );
-
-const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const isEmailConfigured = Boolean(RESEND_API_KEY);
 
 // --------------------------------------------------------------------------
-// Stripe
-// --------------------------------------------------------------------------
-
-const stripe = new Stripe(STRIPE_SECRET_KEY);
-
-// --------------------------------------------------------------------------
-// Supabase
-// --------------------------------------------------------------------------
-
-const supabaseAdmin = isOrderStorageConfigured
-  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
-  : null;
-
-// --------------------------------------------------------------------------
 // Order emails (Resend) — best-effort, sent after an order is saved.
-// Mirrors the look of /api/send-email.js (white background, black text,
+// Mirrors the look of api/send-email.js (white background, black text,
 // LEO FUDALY wordmark, dark-mode-proofed) so every email from the site
-// looks the same regardless of which backend sent it.
+// looks the same regardless of which endpoint sent it.
 // --------------------------------------------------------------------------
 
 const EMAIL_FROM = "LEO FUDALY <hello@leofudaly.com>";
@@ -191,10 +161,6 @@ function shippingBlock({ shippingLabel, pickupPoint, fillingAddress }) {
   const addressLine = pickupPoint
     ? `${pickupPoint.name}, ${pickupPoint.address}, ${pickupPoint.city}`
     : "";
-  // Only set for an oversized (tulivak) order — the cover goes to the
-  // pickup point above, but the filling can't go through one, so it ships
-  // separately to this address. Rendered as its own line rather than
-  // folded into addressLine so it's never confused with the pickup point.
   const fillingLine = fillingAddress
     ? `${fillingAddress.street}, ${fillingAddress.city} ${fillingAddress.postalCode}, ${fillingAddress.country}`
     : "";
@@ -281,74 +247,24 @@ async function sendOrderEmails({ paymentIntentId, contact, items, subtotal, ship
 }
 
 // --------------------------------------------------------------------------
-// Express
+// Handler
 // --------------------------------------------------------------------------
 
-const app = express();
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-app.use(cors());
-app.use(express.json());
-
-// --------------------------------------------------------------------------
-// Create Stripe PaymentIntent
-// --------------------------------------------------------------------------
-//
-// Body:
-// {
-//   amount: number,
-//   currency?: string,
-//   metadata?: object
-// }
-//
-// amount is in cents.
-// Example: 49.99 EUR = 4999
-//
-
-app.post("/create-payment-intent", async (req, res) => {
-  try {
-    const { amount, currency = "eur", metadata = {} } = req.body;
-
-    if (!Number.isInteger(amount) || amount < 1) {
-      return res.status(400).json({
-        error: "A valid amount in cents is required.",
-      });
-    }
-
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency,
-      automatic_payment_methods: {
-        enabled: true,
-      },
-      metadata,
-    });
-
-    return res.json({
-      clientSecret: paymentIntent.client_secret,
-    });
-  } catch (error) {
-    console.error("Stripe PaymentIntent error:", error);
-
-    return res.status(500).json({
-      error: error.message || "Unable to create PaymentIntent.",
+  if (!STRIPE_SECRET_KEY) {
+    return res.status(501).json({
+      error: "STRIPE_SECRET_KEY is not configured on the server.",
     });
   }
-});
 
-// --------------------------------------------------------------------------
-// Confirm order
-// --------------------------------------------------------------------------
-//
-// Called after Stripe payment succeeds.
-//
-// The backend checks Stripe directly before saving the order into Supabase.
-//
-
-app.post("/confirm-order", async (req, res) => {
-  if (!isOrderStorageConfigured || !supabaseAdmin) {
+  if (!isOrderStorageConfigured) {
     return res.status(501).json({
       error:
-        "Order storage is not configured. Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to server/.env.",
+        "Order storage is not configured. Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in Vercel's Environment Variables.",
     });
   }
 
@@ -365,7 +281,7 @@ app.post("/confirm-order", async (req, res) => {
     shippingPrice,
     total,
     currency = "eur",
-  } = req.body;
+  } = req.body || {};
 
   if (!paymentIntentId) {
     return res.status(400).json({
@@ -374,9 +290,12 @@ app.post("/confirm-order", async (req, res) => {
   }
 
   try {
-    // Verify payment directly with Stripe.
-    const paymentIntent =
-      await stripe.paymentIntents.retrieve(paymentIntentId);
+    const stripe = new Stripe(STRIPE_SECRET_KEY);
+    const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+    // Verify payment directly with Stripe — never trust the frontend's
+    // word alone that a payment went through.
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
     if (paymentIntent.status !== "succeeded") {
       return res.status(400).json({
@@ -419,8 +338,7 @@ app.post("/confirm-order", async (req, res) => {
     }
 
     // Best-effort — a failed email should never undo the fact that the
-    // order was already saved successfully above, so this is deliberately
-    // outside the try/catch that would turn it into a 500 response.
+    // order was already saved successfully above.
     sendOrderEmails({
       paymentIntentId,
       contact,
@@ -437,7 +355,7 @@ app.post("/confirm-order", async (req, res) => {
       console.error("Order email error:", err);
     });
 
-    return res.json({
+    return res.status(200).json({
       ok: true,
     });
   } catch (error) {
@@ -447,50 +365,4 @@ app.post("/confirm-order", async (req, res) => {
       error: error.message || "Unable to save order.",
     });
   }
-});
-
-// --------------------------------------------------------------------------
-// Packeta shipment creation
-// --------------------------------------------------------------------------
-//
-// Requires:
-// PACKETA_API_PASSWORD
-// PACKETA_SENDER_LABEL
-//
-// Real Packeta API integration can be added later.
-//
-
-app.post("/create-packeta-shipment", async (req, res) => {
-  const PACKETA_API_PASSWORD = process.env.PACKETA_API_PASSWORD;
-  const PACKETA_SENDER_LABEL = process.env.PACKETA_SENDER_LABEL;
-
-  if (!PACKETA_API_PASSWORD || !PACKETA_SENDER_LABEL) {
-    return res.status(501).json({
-      error:
-        "Packeta is not configured. Add PACKETA_API_PASSWORD and PACKETA_SENDER_LABEL to server/.env.",
-    });
-  }
-
-  return res.status(501).json({
-    error: "Packeta shipment creation is not implemented yet.",
-  });
-});
-
-// --------------------------------------------------------------------------
-// Health check
-// --------------------------------------------------------------------------
-
-app.get("/", (req, res) => {
-  return res.json({
-    status: "ok",
-    message: "LEO ESHOP backend is running.",
-  });
-});
-
-// --------------------------------------------------------------------------
-// Start server
-// --------------------------------------------------------------------------
-
-app.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
-});
+}
