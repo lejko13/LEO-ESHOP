@@ -97,11 +97,14 @@ export const getAvailableShippingMethods = () => shippingMethods;
 // realistically not fit a small box anymore, instead of shipping any
 // quantity of light items for a flat 5 EUR forever.
 //
-// Tiers (matches the original spec exactly at the two reference points -
-// exactly one "B" alone = 4pts = tier 2; two "B" alone = 8pts = tier 3):
-//   0-3 points  -> flat 5 EUR everywhere
-//   4-7 points  -> SK 5 EUR, CZ 7 EUR
-//   8+ points   -> SK 8 EUR, CZ 10 EUR
+// Tiers:
+//   0-3 points   -> flat 5 EUR everywhere
+//   4-7 points   -> SK 7 EUR, CZ 8 EUR
+//   8-11 points  -> SK 8 EUR, CZ 10 EUR
+//   12+ points   -> +3 EUR (both SK and CZ) for every additional full
+//                   block of 4 points beyond 11 (12-15, 16-19, ...), so a
+//                   much heavier/bulkier order keeps costing more instead
+//                   of capping forever at the 8-11 price.
 //
 // Only Slovakia and Czechia are real, priced options - Packeta isn't
 // actually wired up for Hungary/Romania (there's no real API integration
@@ -133,28 +136,47 @@ export const getPacketaPrice = (items = [], countryCode = "SK") => {
 
   if (score <= 3) return 5;
 
-  if (score <= 7) return countryCode === "SK" ? 5 : 7;
+  if (score <= 7) return countryCode === "SK" ? 7 : 8;
 
-  // 8+ points.
-  return countryCode === "SK" ? 8 : 10;
+  // 8+ points: base "8-11" tier, plus +3 EUR per extra full block of 4
+  // points beyond 11 — e.g. 12-15 points is one block (+3), 16-19 is two
+  // blocks (+6), and so on. Keeps the SK/CZ gap (currently 2 EUR) constant
+  // at every step since both sides get the same +3 increment.
+  const base = countryCode === "SK" ? 8 : 10;
+  const extraBlocks = Math.floor((score - 8) / 4);
+  return base + extraBlocks * 3;
 };
 
-// Flat rate for an order containing an oversized ("C") item (tulivak
-// beanbag), charged instead of the normal tiered Packeta price above —
-// the extra cost is for splitting the order into more packages (the
-// filling always ships separately to an address, see fillingAddress in
-// Checkout.jsx), not for a different carrier. It's a flat "this order
-// needs special handling" fee rather than a per-unit rate, so it doesn't
-// change if the cart has one tulivak or several.
-export const getOversizedShippingPrice = (countryCode = "SK") =>
-  countryCode === "SK" ? 10 : 15;
+// Rate for an order containing an oversized ("C") item (tulivak beanbag),
+// charged instead of the normal tiered Packeta price above — the extra
+// cost is for splitting the order into more packages (the filling always
+// ships separately to an address, see fillingAddress in Checkout.jsx), not
+// for a different carrier.
+//
+// A single "C" unit costs the flat base rate (SK 10 EUR / CZ 15 EUR). Two
+// or more "C" units (e.g. two tulivaks, or one tulivak x2 quantity) double
+// that rate (SK 20 EUR / CZ 30 EUR), since each extra unit needs its own
+// separate filling shipment — it no longer stays flat regardless of how
+// many oversized units are in the cart.
+const cartOversizedCount = (items = []) =>
+  items.reduce(
+    (sum, item) => sum + (item.big === "C" ? (item.quantity ?? 1) : 0),
+    0
+  );
+
+export const getOversizedShippingPrice = (items = [], countryCode = "SK") => {
+  const base = countryCode === "SK" ? 10 : 15;
+  const count = cartOversizedCount(items);
+  return count >= 2 ? base * 2 : base;
+};
 
 // A real Packeta BOX is a fixed-size compartment — fine for a handful of
-// light items, but a cart heavy/bulky enough to land in the top price tier
-// (8+ weight points — e.g. two or more jackets) realistically doesn't fit
-// one. A staffed pickup point (Packeta Point, partner store) doesn't have
-// that hard limit, so this only hides `kind: "box"` points, not Packeta
-// as a whole — see DeliverySection.jsx. (An oversized "C" item also rules
-// out BOX, for a different reason — the item itself, not cart weight — see
-// DeliverySection.jsx's own hasBulkyItem-based filtering for that case.)
-export const isCartTooBulkyForBox = (items = []) => cartWeightScore(items) > 7;
+// light items, but a cart heavy/bulky enough to land in the "4-7 points"
+// tier or above (e.g. a single jacket, or a good handful of light items)
+// realistically doesn't fit one. A staffed pickup point (Packeta Point,
+// partner store) doesn't have that hard limit, so this only hides
+// `kind: "box"` points, not Packeta as a whole — see DeliverySection.jsx.
+// (An oversized "C" item also rules out BOX, for a different reason — the
+// item itself, not cart weight — see DeliverySection.jsx's own
+// hasBulkyItem-based filtering for that case.)
+export const isCartTooBulkyForBox = (items = []) => cartWeightScore(items) > 3;

@@ -138,7 +138,7 @@ export const translations = {
       fillingAddressNotice:
         "The beanbag cover is picked up at the point above — we'll send the filling separately, straight to this address.",
       tooBulkyForBoxNotice:
-        "Your order is too large for a BOX — showing pickup points only.",
+        "Your order is too large for a BOX — please choose a pickup point in the Packeta widget, not a BOX. If you pick a BOX anyway, we'll redirect the parcel to the nearest pickup point.",
       otherCountryNotice:
         "We don't have automatic shipping set up outside Slovakia and Czechia yet. Send us an email or a message on Instagram and we'll sort out delivery together.",
       choosePickupPoint: "Choose Pickup Point",
@@ -372,7 +372,7 @@ export const translations = {
       fillingAddressNotice:
         "Obal tulivaku si vyzdvihnete na mieste vyššie — výplň vám pošleme samostatným balíkom priamo na túto adresu.",
       tooBulkyForBoxNotice:
-        "Vaša objednávka je príliš veľká pre BOX — zobrazujeme len výdajné miesta.",
+        "Vaša objednávka je príliš veľká pre BOX — vo widgete Packeta si prosím vyberte výdajné miesto, nie BOX. Ak napriek tomu zvolíte BOX, zásielku presmerujeme na najbližšie výdajné miesto.",
       otherCountryNotice:
         "Mimo Slovenska a Česka zatiaľ nemáme automatickú dopravu nastavenú. Napíšte nám e-mail alebo správu na Instagrame a dopravu spolu vyriešime.",
       choosePickupPoint: "Vybrať výdajné miesto",

@@ -267,9 +267,10 @@ const Checkout = () => {
     0
   );
   // Normally the dynamic tier/country Packeta price — but as soon as the
-  // cart has an oversized item, it's overridden by the flat oversized
-  // rate instead (see getOversizedShippingPrice).
-  const oversizedPrice = getOversizedShippingPrice(country);
+  // cart has an oversized item, it's overridden by the oversized rate
+  // instead (see getOversizedShippingPrice), which itself doubles once 2+
+  // oversized units are in the cart.
+  const oversizedPrice = getOversizedShippingPrice(packetaItems, country);
   const shippingPrice = !selectedShipping
     ? 0
     : hasBulkyItem

@@ -94,7 +94,7 @@ const DeliverySection = ({
       <p className={sectionLabelClass}>{t("checkout.delivery")}</p>
 
       {bulky && (
-        <p className="text-[10px] uppercase tracking-widest2 text-black/40 mb-3">
+        <p className={`${noticeClass} mb-4`}>
           {t("checkout.bulkyItemNotice")}
         </p>
       )}
@@ -174,7 +174,7 @@ const DeliverySection = ({
                 </p>
               ) : (
                 tooBulkyForBox && (
-                  <p className="text-[10px] uppercase tracking-widest2 text-black/40 mb-3">
+                  <p className={`${noticeClass} mb-4`}>
                     {t("checkout.tooBulkyForBoxNotice")}
                   </p>
                 )
@@ -227,7 +227,7 @@ const DeliverySection = ({
                   <p className={sectionLabelClass}>
                     {t("checkout.fillingAddressTitle")}
                   </p>
-                  <p className="text-[10px] uppercase tracking-widest2 text-black/40 mb-4">
+                  <p className={`${noticeClass} mb-4`}>
                     {t("checkout.fillingAddressNotice")}
                   </p>
                   <div className="space-y-4">
