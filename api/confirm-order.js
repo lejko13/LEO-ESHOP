@@ -21,6 +21,7 @@
 
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import { generateInvoicePdf, buildInvoiceNumber } from "./_lib/invoice.js";
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 const SUPABASE_URL = process.env.SUPABASE_URL || "";
@@ -173,10 +174,11 @@ function shippingBlock({ shippingLabel, pickupPoint, fillingAddress }) {
   `;
 }
 
-function orderNotificationHtml({ contact = {}, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress, orderNote, paymentIntentId }) {
+function orderNotificationHtml({ contact = {}, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress, orderNote, paymentIntentId, orderNumber, invoiceNumber }) {
   return emailShell(`
     ${label("Nová objednávka")}
-    <p class="lf-heading" style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">${escapeHtml(`${contact.firstName ?? ""} ${contact.lastName ?? ""}`.trim() || "Zákazník")}</p>
+    <p class="lf-heading" style="margin:0 0 4px;font-size:16px;font-weight:bold;color:#000000;">${escapeHtml(`${contact.firstName ?? ""} ${contact.lastName ?? ""}`.trim() || "Zákazník")}</p>
+    <p class="lf-muted" style="margin:0 0 20px;font-size:11px;color:#999999;">Objednávka č. ${escapeHtml(String(orderNumber ?? "-"))}${invoiceNumber ? ` · Faktúra č. ${escapeHtml(invoiceNumber)}` : ""}</p>
     ${label("Kontakt")}
     ${paragraph(`${escapeHtml(contact.email ?? "-")}${contact.phone ? `<br/>${escapeHtml(contact.phone)}` : ""}`)}
     ${label("Položky")}
@@ -189,10 +191,11 @@ function orderNotificationHtml({ contact = {}, items, subtotal, shippingPrice, t
   `);
 }
 
-function orderConfirmationHtml({ contact = {}, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress }) {
+function orderConfirmationHtml({ contact = {}, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress, orderNumber, invoiceNumber }) {
   return emailShell(`
     ${label("Ďakujeme za objednávku")}
-    <p class="lf-heading" style="margin:0 0 20px;font-size:16px;font-weight:bold;color:#000000;">Dobrý deň${contact.firstName ? `, ${escapeHtml(contact.firstName)}` : ""}.</p>
+    <p class="lf-heading" style="margin:0 0 4px;font-size:16px;font-weight:bold;color:#000000;">Dobrý deň${contact.firstName ? `, ${escapeHtml(contact.firstName)}` : ""}.</p>
+    <p class="lf-muted" style="margin:0 0 20px;font-size:11px;color:#999999;">Objednávka č. ${escapeHtml(String(orderNumber ?? "-"))}${invoiceNumber ? ` · Faktúra č. ${escapeHtml(invoiceNumber)} (v prílohe)` : ""}</p>
     ${paragraph("Vaša platba prebehla úspešne a objednávku už spracovávame.")}
     ${label("Položky")}
     ${orderItemsTable(items, currency)}
@@ -201,7 +204,7 @@ function orderConfirmationHtml({ contact = {}, items, subtotal, shippingPrice, t
   `);
 }
 
-async function sendResendEmail({ to, subject, html, replyTo }) {
+async function sendResendEmail({ to, subject, html, replyTo, attachments }) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -214,6 +217,7 @@ async function sendResendEmail({ to, subject, html, replyTo }) {
       subject,
       html,
       ...(replyTo ? { reply_to: replyTo } : {}),
+      ...(attachments ? { attachments } : {}),
     }),
   });
 
@@ -223,24 +227,57 @@ async function sendResendEmail({ to, subject, html, replyTo }) {
   }
 }
 
-async function sendOrderEmails({ paymentIntentId, contact, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress, orderNote }) {
+async function sendOrderEmails({ paymentIntentId, contact, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress, orderNote, orderNumber, invoiceNumber, createdAt }) {
   if (!isEmailConfigured) return;
 
   const payload = { contact, items, subtotal, shippingPrice, total, currency, shippingLabel, pickupPoint, fillingAddress };
 
+  // Invoice PDF — attached to both emails when we have a real order number
+  // to build the invoice number from (i.e. once the `order_number` column
+  // exists in Supabase; see the migration note in the handler below).
+  let attachments;
+  if (invoiceNumber) {
+    try {
+      const pdfBuffer = await generateInvoicePdf({
+        invoiceNumber,
+        orderNumber,
+        paymentIntentId,
+        createdAt,
+        contact,
+        items,
+        subtotal,
+        shippingPrice,
+        total,
+        currency,
+        pickupPoint,
+        fillingAddress,
+      });
+      attachments = [
+        {
+          filename: `Faktura-${invoiceNumber}.pdf`,
+          content: pdfBuffer.toString("base64"),
+        },
+      ];
+    } catch (err) {
+      console.error("Invoice PDF generation error:", err);
+    }
+  }
+
   await Promise.all([
     sendResendEmail({
       to: OWNER_EMAIL,
-      subject: `Nová objednávka — ${formatMoney(total, currency)}`,
-      html: orderNotificationHtml({ ...payload, orderNote, paymentIntentId }),
+      subject: `Nová objednávka č. ${orderNumber ?? "-"} — ${formatMoney(total, currency)}`,
+      html: orderNotificationHtml({ ...payload, orderNote, paymentIntentId, orderNumber, invoiceNumber }),
       replyTo: contact?.email,
+      attachments,
     }),
     contact?.email
       ? sendResendEmail({
           to: contact.email,
-          subject: "Potvrdenie objednávky — LEO FUDALY",
-          html: orderConfirmationHtml(payload),
+          subject: `Potvrdenie objednávky č. ${orderNumber ?? "-"} — LEO FUDALY`,
+          html: orderConfirmationHtml({ ...payload, orderNumber, invoiceNumber }),
           replyTo: OWNER_EMAIL,
+          attachments,
         })
       : Promise.resolve(),
   ]);
@@ -303,7 +340,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const { error } = await supabaseAdmin
+    const { data: savedOrder, error } = await supabaseAdmin
       .from("orders")
       .upsert(
         {
@@ -331,11 +368,23 @@ export default async function handler(req, res) {
         {
           onConflict: "stripe_payment_intent_id",
         }
-      );
+      )
+      .select()
+      .single();
 
     if (error) {
       throw error;
     }
+
+    // `order_number` is a bigserial column added via a one-time migration
+    // (see README note) — it's a real, sequential, ever-increasing counter
+    // from Supabase, used both as the human-facing order number and as the
+    // basis for the invoice number. Older databases without that column
+    // simply fall back to no invoice number / no PDF attachment below,
+    // rather than failing the whole order confirmation.
+    const orderNumber = savedOrder?.order_number ?? null;
+    const invoiceNumber =
+      orderNumber != null ? buildInvoiceNumber(orderNumber, savedOrder?.created_at) : null;
 
     // Best-effort — a failed email should never undo the fact that the
     // order was already saved successfully above. IMPORTANT: this must be
@@ -356,6 +405,9 @@ export default async function handler(req, res) {
         pickupPoint,
         fillingAddress,
         orderNote,
+        orderNumber,
+        invoiceNumber,
+        createdAt: savedOrder?.created_at,
       });
     } catch (err) {
       console.error("Order email error:", err);
