@@ -36,7 +36,7 @@ const crease_puffer = {
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Black"],
   showSwatches: false,
-  sizeChart: "A",
+  sizeChart: "I",
   big: "B",
   delivery: {
     en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",

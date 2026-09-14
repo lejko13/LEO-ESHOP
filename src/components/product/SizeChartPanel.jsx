@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import SidePanel from "../ui/SidePanel.jsx";
 import { useLanguage } from "../../hooks/useLanguage.js";
 
@@ -10,7 +11,7 @@ const SizeChartPanel = ({ open, onClose, chart }) => {
   if (!chart) return null;
 
   return (
-    <SidePanel open={open} onClose={onClose} title={t("product.sizeChart")}>
+    <SidePanel open={open} onClose={onClose} title={t("product.sizeChart")} maxWidth="max-w-md">
       <div className="p-6">
         <div className="bg-[#f2f1ee] border border-black/10">
           <table className="w-full border-collapse">
@@ -51,11 +52,32 @@ const SizeChartPanel = ({ open, onClose, chart }) => {
           </table>
         </div>
 
+        {chart.image && (
+          <img
+            src={chart.image}
+            alt={t("product.sizeChart")}
+            className="w-full mt-6 border border-black/10"
+          />
+        )}
+
+        {chart.note && (
+          <p className="text-[11px] leading-relaxed text-black/50 mt-4">
+            {pick(chart.note)}
+          </p>
+        )}
+
         {chart.unit && (
           <p className="text-[10px] uppercase tracking-widest2 text-black/30 mt-4">
             {t("product.sizeChartUnit", { unit: chart.unit })}
           </p>
         )}
+
+        <p className="text-[11px] leading-relaxed text-black/50 mt-6">
+          {t("product.sizeChartContactPrompt")}{" "}
+          <Link to="/contact" className="underline text-black/70 hover:text-black">
+            {t("product.sizeChartContactLink")}
+          </Link>
+        </p>
       </div>
     </SidePanel>
   );

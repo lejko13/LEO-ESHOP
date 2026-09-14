@@ -17,7 +17,6 @@ import black_tee from "./black_tee/product.js";
 import black_waterprof_pants from "./black_waterprof_pants/product.js";
 import crease_jacket from "./crease_jacket/product.js";
 import crease_jacket_v2 from "./crease_jacket_v2/product.js";
-import crease_pants from "./crease_pants/product.js";
 import crease_puffer from "./crease_puffer/product.js";
 import crease_vest from "./crease_vest/product.js";
 import crease_zip_jacket_v1 from "./crease_zip_jacket_v1/product.js";
@@ -82,7 +81,6 @@ export const products = [
   black_waterprof_pants,
   crease_jacket,
   crease_jacket_v2,
-  crease_pants,
   crease_puffer,
   crease_vest,
   crease_zip_jacket_v1,

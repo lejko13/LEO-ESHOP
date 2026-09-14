@@ -33,7 +33,7 @@ const pocket_pants = {
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Black"],
   showSwatches: false,
-  sizeChart: "B",
+  sizeChart: "L",
   big: "A",
   delivery: {
     en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",

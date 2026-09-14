@@ -32,7 +32,7 @@ const brown_sweatpants = {
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Brown"],
   showSwatches: false,
-  sizeChart: "B",
+  sizeChart: "C",
   big: "A",
   delivery: {
     en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",

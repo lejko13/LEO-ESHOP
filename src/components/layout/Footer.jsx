@@ -41,8 +41,21 @@ const Footer = () => {
             </Link>
           ))}
         </div>
-        <span className="text-[10px] uppercase tracking-widest2 text-black/40 whitespace-nowrap">
-          &copy; {new Date().getFullYear()} {t("footer.copyright")}
+        <span className="flex items-center gap-2 text-[10px] uppercase tracking-widest2 text-black/40 whitespace-nowrap">
+          <span>
+            &copy; {new Date().getFullYear()} {t("footer.copyright")}
+          </span>
+          {BUSINESS.phone && (
+            <>
+              <span aria-hidden="true">&middot;</span>
+              <a
+                href={`tel:${BUSINESS.phone}`}
+                className="hover:text-black normal-case tracking-normal"
+              >
+                {BUSINESS.phone}
+              </a>
+            </>
+          )}
         </span>
       </div>
 
@@ -63,17 +76,6 @@ const Footer = () => {
           >
             {BUSINESS.email}
           </a>
-          {BUSINESS.phone && (
-            <>
-              <span aria-hidden="true">&middot;</span>
-              <a
-                href={`tel:${BUSINESS.phone}`}
-                className="hover:text-black normal-case tracking-normal"
-              >
-                {BUSINESS.phone}
-              </a>
-            </>
-          )}
         </div>
       </div>
     </footer>

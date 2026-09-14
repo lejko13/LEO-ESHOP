@@ -6,7 +6,7 @@ import { useLanguage } from "../../hooks/useLanguage.js";
 // sliding in from the right, same header row with a title and Close button.
 // Only `title` and `children` change per use, so new panels stay visually
 // and structurally consistent without duplicating the shell.
-const SidePanel = ({ open, onClose, title, children }) => {
+const SidePanel = ({ open, onClose, title, children, maxWidth = "max-w-xs" }) => {
   const { t } = useLanguage();
 
   // Lock the page behind the panel while it's open — otherwise the body
@@ -30,8 +30,8 @@ const SidePanel = ({ open, onClose, title, children }) => {
         className="absolute inset-0 bg-black/20"
       />
 
-      <div className="relative w-full max-w-xs h-full bg-white border-l border-black/10 overflow-y-auto">
-        <div className="flex items-center justify-between px-6 pt-5 md:pt-16 pb-5">
+      <div className={`relative w-full ${maxWidth} h-full bg-white border-l border-black/10 overflow-y-auto`}>
+        <div className="flex items-center justify-between px-6 pt-5 pb-5">
           <p className="text-[11px] uppercase tracking-widest2">{title}</p>
           <button
             onClick={onClose}
