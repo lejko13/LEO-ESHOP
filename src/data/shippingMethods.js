@@ -113,6 +113,16 @@ export const getAvailableShippingMethods = () => shippingMethods;
 // includes an "OTHER" pseudo-option that DeliverySection.jsx renders as a
 // "get in touch" message instead of a price - see OTHER_COUNTRY_CODE.
 
+// ---------------------------------------------------------------------
+// TEMPORARY TEST MODE — set back to false to restore real shipping prices.
+// While true, getPacketaPrice and getOversizedShippingPrice both return
+// 0.01 EUR regardless of cart contents/country, so the site owner can run
+// real end-to-end Stripe test purchases cheaply. Flip SHIPPING_TEST_MODE
+// to false (only that one line) to fully restore original pricing — none
+// of the real tier/oversized logic below was touched.
+// ---------------------------------------------------------------------
+export const SHIPPING_TEST_MODE = true;
+
 export const OTHER_COUNTRY_CODE = "OTHER";
 
 export const DELIVERY_COUNTRIES = [
@@ -132,6 +142,8 @@ const cartWeightScore = (items) =>
   );
 
 export const getPacketaPrice = (items = [], countryCode = "SK") => {
+  if (SHIPPING_TEST_MODE) return 0.01;
+
   const score = cartWeightScore(items);
 
   if (score <= 3) return 5;
@@ -165,6 +177,8 @@ const cartOversizedCount = (items = []) =>
   );
 
 export const getOversizedShippingPrice = (items = [], countryCode = "SK") => {
+  if (SHIPPING_TEST_MODE) return 0.01;
+
   const base = countryCode === "SK" ? 10 : 15;
   const count = cartOversizedCount(items);
   return count >= 2 ? base * 2 : base;

@@ -55,6 +55,7 @@ const CartToast = () => {
       )}
       <Link
         to="/cart"
+        onClick={() => setVisible(false)}
         className="text-[10px] uppercase tracking-widest2 underline mt-3 inline-block text-white/70 hover:text-white"
       >
         {t("toast.viewCart")}

@@ -44,6 +44,7 @@ import beige_tee from "./beige_tee/product.js";
 import brown_hoodie from "./brown_hoodie/product.js";
 import brown_sweatpants from "./brown_sweatpants/product.js";
 import camo_distressed_shorts from "./camo_distressed_shorts/product.js";
+import camo_distressed_pants from "./camo_distressed_pants/product.js";
 import camo_hoodie from "./camo_hoodie/product.js";
 import camo_pants from "./camo_pants/product.js";
 import camo_pink_patent_hoodie from "./camo_pink_patent_hoodie/product.js";
@@ -108,6 +109,7 @@ export const products = [
   brown_hoodie,
   brown_sweatpants,
   camo_distressed_shorts,
+  camo_distressed_pants,
   camo_hoodie,
   camo_pants,
   camo_pink_patent_hoodie,

@@ -35,6 +35,9 @@ import cargoClassicDiagram from "../assets/size-charts/cargo-classic-diagram.png
 import cargoSplitDiagram from "../assets/size-charts/cargo-split-diagram.png";
 import creaseZipDiagram from "../assets/size-charts/crease-zip-diagram.png";
 import creasePulloverDiagram from "../assets/size-charts/crease-pullover-diagram.png";
+import camoDistressedShortsDiagram from "../assets/size-charts/camo-distressed-shorts-diagram.png";
+import camoDistressedPantsDiagram from "../assets/size-charts/camo-distressed-pants-diagram.png";
+import zipHoodieDiagram from "../assets/size-charts/zip-hoodie-diagram.png";
 
 export const sizeCharts = {
   A: {
@@ -215,6 +218,10 @@ export const sizeCharts = {
   // PT-18 Cargo nohavice s popruhmi (straps/buckles cargo).
   J: {
     unit: "cm",
+    note: {
+      en: "The leg hem can be tightened with a drawstring.",
+      sk: "Spodný lem nohavíc si viete stiahnuť šnúrkou.",
+    },
     image: cargoStrapsDiagram,
     columns: [
       { id: "size", label: { en: "Size", sk: "Veľkosť" } },
@@ -233,6 +240,10 @@ export const sizeCharts = {
   // PT-10 Šnurovacie cargo nohavice (lace-up/grommet cargo).
   K: {
     unit: "cm",
+    note: {
+      en: "Waist and leg hem can be tightened or loosened with a drawstring.",
+      sk: "Pás aj spodný lem si viete sťahovacou šnúrkou stiahnuť alebo natiahnuť.",
+    },
     image: cargoLaceupDiagram,
     columns: [
       { id: "size", label: { en: "Size", sk: "Veľkosť" } },
@@ -291,10 +302,6 @@ export const sizeCharts = {
   // PT-13 Delené maskáčové nohavice (split camo/denim).
   N: {
     unit: "cm",
-    note: {
-      en: "The leg hem can be tightened with a drawstring.",
-      sk: "Spodný lem nohavíc si viete stiahnuť šnúrkou.",
-    },
     image: cargoSplitDiagram,
     columns: [
       { id: "size", label: { en: "Size", sk: "Veľkosť" } },
@@ -365,6 +372,63 @@ export const sizeCharts = {
       { size: "M", shoulder: 56, bodyLength: 69, sleeve: 64 },
       { size: "L", shoulder: 58, bodyLength: 71, sleeve: 65 },
       { size: "XL", shoulder: 60, bodyLength: 73, sleeve: 66 },
+    ],
+  },
+  // PT-03 Roztrhané cargo kraťasy — own chart with A/B/C measurements.
+  R: {
+    unit: "cm",
+    image: camoDistressedShortsDiagram,
+    columns: [
+      { id: "size", label: { en: "Size", sk: "Veľkosť" } },
+      { id: "waist", label: { en: "A", sk: "A" } },
+      { id: "length", label: { en: "B", sk: "B" } },
+      { id: "width", label: { en: "C", sk: "C" } },
+    ],
+    rows: [
+      { size: "XS", waist: 37, length: 56, width: 30 },
+      { size: "S", waist: 39, length: 58, width: 32 },
+      { size: "M", waist: 41, length: 60, width: 34 },
+      { size: "L", waist: 43, length: 62, width: 36 },
+      { size: "XL", waist: 45, length: 64, width: 38 },
+    ],
+  },
+  // PT-30 Roztrhané cargo nohavice — same waist/length/leg-opening values as
+  // the other cargo pants (J/K/L/M/N/O), own diagram.
+  S: {
+    unit: "cm",
+    image: camoDistressedPantsDiagram,
+    columns: [
+      { id: "size", label: { en: "Size", sk: "Veľkosť" } },
+      { id: "waist", label: { en: "A", sk: "A" } },
+      { id: "length", label: { en: "B", sk: "B" } },
+      { id: "legOpening", label: { en: "C", sk: "C" } },
+    ],
+    rows: [
+      { size: "XS", waist: 34, length: 109, legOpening: 25 },
+      { size: "S", waist: 36, length: 110, legOpening: 26 },
+      { size: "M", waist: 38, length: 111, legOpening: 27 },
+      { size: "L", waist: 40, length: 112, legOpening: 28 },
+      { size: "XL", waist: 42, length: 113, legOpening: 29 },
+    ],
+  },
+  // HD-09 Zipsová mikina / HD-10 Zipsová mikina s dvojitou kapucňou — same
+  // measurements as chart D, own diagram (front view with zip) so chart D's
+  // image (shared by every other regular hoodie) isn't touched.
+  T: {
+    unit: "cm",
+    image: zipHoodieDiagram,
+    columns: [
+      { id: "size", label: { en: "Size", sk: "Veľkosť" } },
+      { id: "shoulder", label: { en: "A", sk: "A" } },
+      { id: "bodyLength", label: { en: "B", sk: "B" } },
+      { id: "sleeve", label: { en: "C", sk: "C" } },
+    ],
+    rows: [
+      { size: "XS", shoulder: 57, bodyLength: 62, sleeve: 59 },
+      { size: "S", shoulder: 59, bodyLength: 64, sleeve: 60 },
+      { size: "M", shoulder: 61, bodyLength: 66, sleeve: 61 },
+      { size: "L", shoulder: 63, bodyLength: 68, sleeve: 62 },
+      { size: "XL", shoulder: 65, bodyLength: 70, sleeve: 63 },
     ],
   },
 };

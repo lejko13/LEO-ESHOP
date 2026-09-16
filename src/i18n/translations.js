@@ -66,6 +66,7 @@ export const translations = {
         tracksuit: "Tracksuits",
         "t-shirts": "T-Shirts",
         pants: "Pants",
+        shorts: "Shorts",
         jackets: "Jackets",
         footwear: "Footwear",
         accessories: "Accessories",
@@ -184,7 +185,7 @@ export const translations = {
     },
     about: {
       title: "About",
-      body: "LEO FUDALY is a minimal fashion label — placeholder copy, replace with your own brand story.",
+      body: "LEO FUDALY grew out of a long-standing passion for fashion and clothing design that I've pursued since 2021. Despite a few breaks along the way, I always came back to creating, gradually sharpening my skills and pushing each new project to a higher level. Today I bring my own ideas, patterns, and experience together into work that keeps evolving.",
     },
     contact: {
       title: "Contact",
@@ -305,6 +306,7 @@ export const translations = {
         tracksuit: "Tepláky",
         "t-shirts": "Tričká",
         pants: "Nohavice",
+        shorts: "Kraťasy",
         jackets: "Bundy",
         footwear: "Obuv",
         accessories: "Doplnky",
@@ -423,7 +425,7 @@ export const translations = {
     },
     about: {
       title: "O nás",
-      body: "LEO FUDALY je minimalistická módna značka — zástupný text, nahraďte ho vlastným príbehom značky.",
+      body: "LEO FUDALY vzniká z dlhoročného záujmu o módu a tvorbu oblečenia, ktorej sa venujem od roku 2021. Napriek menším prestávkam som sa k tvorbe vždy vracal, postupne zdokonaľoval svoje zručnosti a posúval každý ďalší projekt na vyššiu úroveň. Dnes prepájam vlastné nápady, strihy a skúsenosti do tvorby, ktorá sa neustále vyvíja.",
     },
     contact: {
       title: "Kontakt",

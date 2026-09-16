@@ -60,6 +60,10 @@ function App() {
                   element={<ProductCategory category="pants" />}
                 />
                 <Route
+                  path="/produkty/kratasy"
+                  element={<ProductCategory category="shorts" />}
+                />
+                <Route
                   path="/produkty/jacket"
                   element={<ProductCategory category="jackets" />}
                 />

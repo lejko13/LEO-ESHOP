@@ -1,20 +1,20 @@
-import front from "./front.webp";
-import back from "./back.webp";
-import detail from "./detail.webp";
-import extra4 from "./extra4.webp";
+import front from "./front.png";
+import back from "./back.png";
+import detail from "./detail.png";
+import extra4 from "./extra4.png";
 
-const camo_distressed_shorts = {
-  id: "camo_distressed_shorts",
-  code: "PT-03",
+const camo_distressed_pants = {
+  id: "camo_distressed_pants",
+  code: "PT-30",
   name: {
-    en: "Distressed Cargo Shorts",
-    sk: "Roztrhané cargo kraťasy",
+    en: "Distressed Cargo Pants",
+    sk: "Roztrhané cargo nohavice",
   },
-  price: 70.0,
+  price: 90.0,
   currency: "EUR",
   description: {
-    en: "Cargo shorts in a classic woodland camo print, finished with a distressed, deconstructed wash.",
-    sk: "Cargo kraťasy s klasickou maskáčovou potlačou, dokončené speraným, deštruovaným vzhľadom.",
+    en: "Wide-leg cargo pants in a classic woodland camo print, finished with a distressed, deconstructed wash and a raw frayed hem.",
+    sk: "Cargo nohavice so širokou nohavicou a klasickou maskáčovou potlačou, dokončené speraným, deštruovaným vzhľadom a surovým strapkatým lemom.",
   },
   features: {
     en: [
@@ -28,11 +28,11 @@ const camo_distressed_shorts = {
       "Šité na Slovensku",
     ],
   },
-  category: "shorts",
+  category: "pants",
   sizes: ["XS", "S", "M", "L", "XL"],
   colors: ["Camo"],
   showSwatches: false,
-  sizeChart: "R",
+  sizeChart: "S",
   big: "A",
   delivery: {
     en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
@@ -46,4 +46,4 @@ const camo_distressed_shorts = {
   },
 };
 
-export default camo_distressed_shorts;
+export default camo_distressed_pants;

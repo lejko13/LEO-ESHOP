@@ -15,8 +15,8 @@ const crease_jacket_v2 = {
   price: 260.0,
   currency: "EUR",
   description: {
-    en: "A cropped, hooded jacket with a crinkled, sculptural nylon finish and full front zip.",
-    sk: "Skrátená bunda s kapucňou, pokrčeným sochárskym nylonovým povrchom a predným zipsom v celej dĺžke.",
+    en: "A cropped, hooded jacket with a crinkled, sculptural nylon finish and full front zip. WITH FILLING.",
+    sk: "Skrátená bunda s kapucňou, pokrčeným sochárskym nylonovým povrchom a predným zipsom v celej dĺžke. S VÝPLŇOU.",
   },
   features: {
     en: [
@@ -39,8 +39,8 @@ const crease_jacket_v2 = {
   sizeChart: "Q",
   big: "B",
   delivery: {
-    en: "Production/Dispatch: within 4-5 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
-    sk: "Výroba/Expedícia: do 4-5 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
+    en: "Production/Dispatch: within 6-8 business days\nDelivery: within 1-2 business days after your item is completed\n(each piece is handmade to order, so delivery times may vary slightly)",
+    sk: "Výroba/Expedícia: do 6-8 pracovných dní\nDodanie: do 1-2 pracovných dní od dokončenia produktu\n(každý kus šijeme ručne na objednávku, termín dodania sa preto môže mierne líšiť)",
   },
   images: {
     front,

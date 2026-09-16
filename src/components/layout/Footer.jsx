@@ -13,6 +13,7 @@ const Footer = () => {
     { label: t("filters.categories.hoodies"), to: "/produkty/hoodie" },
     { label: t("filters.categories.tracksuit"), to: "/produkty/tracksuit" },
     { label: t("filters.categories.pants"), to: "/produkty/pants" },
+    { label: t("filters.categories.shorts"), to: "/produkty/kratasy" },
     { label: t("filters.categories.jackets"), to: "/produkty/jacket" },
     { label: t("filters.categories.beanbag"), to: "/produkty/tulivak" },
     { label: t("filters.categories.bags"), to: "/produkty/tasky" },
@@ -45,17 +46,6 @@ const Footer = () => {
           <span>
             &copy; {new Date().getFullYear()} {t("footer.copyright")}
           </span>
-          {BUSINESS.phone && (
-            <>
-              <span aria-hidden="true">&middot;</span>
-              <a
-                href={`tel:${BUSINESS.phone}`}
-                className="hover:text-black normal-case tracking-normal"
-              >
-                {BUSINESS.phone}
-              </a>
-            </>
-          )}
         </span>
       </div>
 
@@ -76,6 +66,17 @@ const Footer = () => {
           >
             {BUSINESS.email}
           </a>
+          {BUSINESS.phone && (
+            <>
+              <span aria-hidden="true">&middot;</span>
+              <a
+                href={`tel:${BUSINESS.phone}`}
+                className="hover:text-black normal-case tracking-normal"
+              >
+                {BUSINESS.phone}
+              </a>
+            </>
+          )}
         </div>
       </div>
     </footer>
