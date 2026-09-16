@@ -33,11 +33,11 @@ import cargoLaceupDiagram from "../assets/size-charts/cargo-laceup-diagram.png";
 import cargoDrawstringDiagram from "../assets/size-charts/cargo-drawstring-diagram.png";
 import cargoClassicDiagram from "../assets/size-charts/cargo-classic-diagram.png";
 import cargoSplitDiagram from "../assets/size-charts/cargo-split-diagram.png";
-import creaseZipDiagram from "../assets/size-charts/crease-zip-diagram.png";
-import creasePulloverDiagram from "../assets/size-charts/crease-pullover-diagram.png";
-import camoDistressedShortsDiagram from "../assets/size-charts/camo-distressed-shorts-diagram.png";
-import camoDistressedPantsDiagram from "../assets/size-charts/camo-distressed-pants-diagram.png";
-import zipHoodieDiagram from "../assets/size-charts/zip-hoodie-diagram.png";
+import creaseZipDiagram from "../assets/size-charts/crease-zip-diagram.webp";
+import creasePulloverDiagram from "../assets/size-charts/crease-pullover-diagram.webp";
+import camoDistressedShortsDiagram from "../assets/size-charts/camo-distressed-shorts-diagram.webp";
+import camoDistressedPantsDiagram from "../assets/size-charts/camo-distressed-pants-diagram.webp";
+import zipHoodieDiagram from "../assets/size-charts/zip-hoodie-diagram.webp";
 
 export const sizeCharts = {
   A: {

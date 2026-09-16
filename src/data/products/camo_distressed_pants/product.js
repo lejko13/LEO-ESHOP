@@ -1,7 +1,7 @@
-import front from "./front.png";
-import back from "./back.png";
-import detail from "./detail.png";
-import extra4 from "./extra4.png";
+import front from "./front.webp";
+import back from "./back.webp";
+import detail from "./detail.webp";
+import extra4 from "./extra4.webp";
 
 const camo_distressed_pants = {
   id: "camo_distressed_pants",

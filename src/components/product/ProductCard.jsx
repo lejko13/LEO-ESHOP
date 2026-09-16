@@ -30,6 +30,8 @@ const ProductCard = ({ product }) => {
         <img
           src={displayImage}
           alt={name}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-[1.03]"
         />
       </div>

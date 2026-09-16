@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../config/supabase.js";
 import { useLanguage } from "../hooks/useLanguage.js";
 import { formatPrice } from "../utils/formatPrice.js";
+import { toLocalDateKey } from "../utils/localDateKey.js";
+import DatePicker from "../components/ui/DatePicker.jsx";
 
 // Hidden owner page — not linked anywhere in the nav/footer, reachable only
 // by typing /admin. Has its own Supabase Auth login (same owner account
@@ -31,6 +33,16 @@ const Admin = () => {
 
   const [orders, setOrders] = useState([]);
   const [ordersStatus, setOrdersStatus] = useState("idle"); // idle | loading | loaded | error
+
+  // Simple day filter for the dashboard below — an HTML date input value
+  // ("YYYY-MM-DD" in the browser's local timezone), compared against each
+  // order's created_at converted to the same local YYYY-MM-DD shape (see
+  // toLocalDateKey below) so "today" means the owner's actual today, not UTC.
+  const [dateFilter, setDateFilter] = useState("");
+  // Which order's invoice PDF is currently being fetched, so its button can
+  // show a "downloading…" state instead of looking unresponsive.
+  const [downloadingId, setDownloadingId] = useState(null);
+  const [invoiceErrorId, setInvoiceErrorId] = useState(null);
 
   useEffect(() => {
     if (!isSupabaseConfigured) {
@@ -76,6 +88,54 @@ const Admin = () => {
   };
 
   const handleLogout = () => supabase.auth.signOut();
+
+  const filteredOrders = useMemo(() => {
+    if (!dateFilter) return orders;
+    return orders.filter(
+      (order) => toLocalDateKey(order.created_at) === dateFilter
+    );
+  }, [orders, dateFilter]);
+
+  // Dashboard totals — always over ALL orders (not the day filter), so the
+  // top tiles stay a stable overview regardless of which day is selected.
+  const totalRevenue = useMemo(
+    () => orders.reduce((sum, o) => sum + (Number(o.total) || 0), 0),
+    [orders]
+  );
+
+  // Sum for whichever set is currently visible (all orders, or just the
+  // selected day) — shown next to the date picker.
+  const visibleSum = useMemo(
+    () => filteredOrders.reduce((sum, o) => sum + (Number(o.total) || 0), 0),
+    [filteredOrders]
+  );
+
+  const handleDownloadInvoice = async (order) => {
+    setInvoiceErrorId(null);
+    setDownloadingId(order.id);
+    try {
+      const res = await fetch(`/api/invoice?orderId=${order.id}`, {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+      if (!res.ok) throw new Error("invoice request failed");
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Faktura-${order.order_number ?? order.id}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      setInvoiceErrorId(order.id);
+    } finally {
+      setDownloadingId(null);
+    }
+  };
 
   if (checkingSession) return null;
 
@@ -145,6 +205,50 @@ const Admin = () => {
         </button>
       </div>
 
+      {ordersStatus === "loaded" && orders.length > 0 && (
+        <div className="grid grid-cols-2 gap-4 mb-8">
+          <div className="border border-black/10 p-4">
+            <p className="text-[9px] uppercase tracking-widest2 text-black/30 mb-2">
+              {t("admin.dashboardOrders")}
+            </p>
+            <p className="text-[20px]">{orders.length}</p>
+          </div>
+          <div className="border border-black/10 p-4">
+            <p className="text-[9px] uppercase tracking-widest2 text-black/30 mb-2">
+              {t("admin.dashboardRevenue")}
+            </p>
+            <p className="text-[20px]">
+              {formatPrice(totalRevenue, "EUR", language)}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {ordersStatus === "loaded" && orders.length > 0 && (
+        <div className="flex items-center flex-wrap gap-3 mb-8 pb-6 border-b border-black/10">
+          <label className="text-[10px] uppercase tracking-widest2 text-black/40">
+            {t("admin.filterDate")}
+          </label>
+          <DatePicker value={dateFilter} onChange={setDateFilter} />
+          {dateFilter && (
+            <button
+              onClick={() => setDateFilter("")}
+              className="text-[10px] uppercase tracking-widest2 underline text-black/40 hover:text-black"
+            >
+              {t("admin.clearFilter")}
+            </button>
+          )}
+          {dateFilter && (
+            <p className="text-[11px] text-black/50">
+              {t("admin.daySummary", {
+                count: filteredOrders.length,
+                total: formatPrice(visibleSum, "EUR", language),
+              })}
+            </p>
+          )}
+        </div>
+      )}
+
       {ordersStatus === "loading" && (
         <p className="text-[11px] uppercase tracking-widest2 text-black/40">
           …
@@ -163,8 +267,14 @@ const Admin = () => {
         </p>
       )}
 
+      {ordersStatus === "loaded" && orders.length > 0 && filteredOrders.length === 0 && (
+        <p className="text-[11px] uppercase tracking-widest2 text-black/40">
+          {t("admin.noOrders")}
+        </p>
+      )}
+
       <div className="space-y-8">
-        {orders.map((order) => {
+        {filteredOrders.map((order) => {
           const currency = (order.currency || "EUR").toUpperCase();
           return (
             <div key={order.id} className="border border-black/10 p-5">
@@ -180,6 +290,28 @@ const Admin = () => {
                 <p className="text-[13px] uppercase tracking-widest2">
                   {formatPrice(order.total, currency, language)}
                 </p>
+                <div className="w-full flex items-center justify-end gap-3">
+                  {order.order_number != null ? (
+                    <button
+                      onClick={() => handleDownloadInvoice(order)}
+                      disabled={downloadingId === order.id}
+                      className="text-[10px] uppercase tracking-widest2 underline text-black/40 hover:text-black disabled:opacity-40"
+                    >
+                      {downloadingId === order.id
+                        ? t("admin.downloadingInvoice")
+                        : t("admin.downloadInvoice")}
+                    </button>
+                  ) : (
+                    <p className="text-[10px] uppercase tracking-widest2 text-black/20">
+                      {t("admin.noInvoice")}
+                    </p>
+                  )}
+                  {invoiceErrorId === order.id && (
+                    <p className="text-[10px] uppercase tracking-widest2 text-black/40">
+                      {t("admin.invoiceError")}
+                    </p>
+                  )}
+                </div>
               </div>
 
               <div className="grid sm:grid-cols-2 gap-6 mb-5 text-[11px]">
