@@ -27,3 +27,5 @@ server/.env
 *.njsproj
 *.sln
 *.sw?
+product-photos-png/
+product-photos-png.zip

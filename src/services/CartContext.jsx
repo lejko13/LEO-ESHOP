@@ -1,9 +1,36 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 export const CartContext = createContext(null);
 
+// Cart persistence — survives a page refresh/reopen via localStorage. Only
+// the cart's own tab/browser sees it (it's not shared between devices or
+// synced anywhere), which is fine here: it's just a convenience so a
+// refresh doesn't wipe out what someone was about to buy.
+const STORAGE_KEY = "leo-fudaly-cart";
+
+const loadStoredItems = () => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
 export const CartProvider = ({ children }) => {
-  const [items, setItems] = useState([]); // { productId, size, color, quantity, kind }
+  const [items, setItems] = useState(loadStoredItems); // { productId, size, color, quantity, kind }
+
+  // Keep localStorage in sync with every cart change (add/remove/clear).
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      // Storage full/unavailable (e.g. private browsing) — cart still
+      // works for the current session, it just won't survive a refresh.
+    }
+  }, [items]);
   // Transient "just added" event — CartToast watches this and shows a popup.
   // A fresh object (with its own id) is set on every addItem call, even for
   // the same product twice in a row, so the toast re-triggers each time.
