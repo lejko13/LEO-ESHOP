@@ -116,8 +116,11 @@ export const getAvailableShippingMethods = () => shippingMethods;
 // ---------------------------------------------------------------------
 // TEMPORARY TEST MODE — set back to false to restore real shipping prices.
 // While true, getPacketaPrice and getOversizedShippingPrice both return
-// 0.01 EUR regardless of cart contents/country, so the site owner can run
-// real end-to-end Stripe test purchases cheaply. Flip SHIPPING_TEST_MODE
+// 0.50 EUR regardless of cart contents/country (0.01 was tried first but
+// sits below Stripe's ~0.50 EUR minimum charge for EUR, which silently
+// failed PaymentIntent creation and made the payment form never appear),
+// so the site owner can run real end-to-end Stripe test purchases cheaply.
+// Flip SHIPPING_TEST_MODE
 // to false (only that one line) to fully restore original pricing — none
 // of the real tier/oversized logic below was touched.
 // ---------------------------------------------------------------------
@@ -142,7 +145,7 @@ const cartWeightScore = (items) =>
   );
 
 export const getPacketaPrice = (items = [], countryCode = "SK") => {
-  if (SHIPPING_TEST_MODE) return 0.01;
+  if (SHIPPING_TEST_MODE) return 0.5;
 
   const score = cartWeightScore(items);
 
@@ -177,7 +180,7 @@ const cartOversizedCount = (items = []) =>
   );
 
 export const getOversizedShippingPrice = (items = [], countryCode = "SK") => {
-  if (SHIPPING_TEST_MODE) return 0.01;
+  if (SHIPPING_TEST_MODE) return 0.5;
 
   const base = countryCode === "SK" ? 10 : 15;
   const count = cartOversizedCount(items);
