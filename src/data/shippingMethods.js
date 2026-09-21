@@ -124,7 +124,7 @@ export const getAvailableShippingMethods = () => shippingMethods;
 // to false (only that one line) to fully restore original pricing — none
 // of the real tier/oversized logic below was touched.
 // ---------------------------------------------------------------------
-export const SHIPPING_TEST_MODE = true;
+export const SHIPPING_TEST_MODE = false;
 
 export const OTHER_COUNTRY_CODE = "OTHER";
 
