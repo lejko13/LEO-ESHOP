@@ -6,6 +6,7 @@ import { isValidPhoneNumber, parsePhoneNumberFromString } from "libphonenumber-j
 import { useCart } from "../hooks/useCart.js";
 import { useLanguage } from "../hooks/useLanguage.js";
 import { resolveCartItem } from "../utils/cartItem.js";
+import { trackBeginCheckout } from "../utils/analytics.js";
 import {
   getShippingMethod,
   getPacketaPrice,
@@ -285,6 +286,13 @@ const Checkout = () => {
       : packetaPrice;
   const total = subtotal + shippingPrice;
   const amountInCents = Math.round(total * 100);
+
+  // GA4 "begin_checkout" — once when the checkout page is opened with
+  // something in the cart.
+  useEffect(() => {
+    trackBeginCheckout(itemsWithProducts.map(({ entry }) => entry));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (items.length === 0) {
     return (

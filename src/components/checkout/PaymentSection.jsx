@@ -5,6 +5,7 @@ import { useLanguage } from "../../hooks/useLanguage.js";
 import { useCart } from "../../hooks/useCart.js";
 import { STRIPE_API_URL } from "../../config/stripe.js";
 import { formatPrice } from "../../utils/formatPrice.js";
+import { trackPurchase } from "../../utils/analytics.js";
 import Button from "../ui/Button.jsx";
 import Checkbox from "../ui/Checkbox.jsx";
 
@@ -199,6 +200,14 @@ const PaymentSection = ({
         // gets lost.
         setStatus("success");
         saveOrder(paymentIntent.id);
+        // GA4 "purchase" — the Stripe PaymentIntent id doubles as the
+        // transaction id, so GA never counts the same order twice.
+        trackPurchase({
+          transactionId: paymentIntent.id,
+          entries: itemsWithProducts.map(({ entry }) => entry),
+          total,
+          shipping: shippingPrice,
+        });
         clearCart();
         // Navigate to a dedicated confirmation page rather than relying on
         // the "success" status above staying visible — clearCart() causes

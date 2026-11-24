@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getMaterialById } from "../data/materials/index.js";
 import { useCart } from "../hooks/useCart.js";
 import { useLanguage } from "../hooks/useLanguage.js";
 import { formatPrice } from "../utils/formatPrice.js";
 import { COLOR_SWATCHES } from "../utils/colors.js";
+import { resolveCartItem } from "../utils/cartItem.js";
+import { trackViewItem } from "../utils/analytics.js";
 import Button from "../components/ui/Button.jsx";
 import QuantityStepper from "../components/ui/QuantityStepper.jsx";
 
@@ -23,6 +25,15 @@ const MaterialProduct = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState(material?.colors?.[0] ?? null);
   const { addItem } = useCart();
+
+  // GA4 "view_item" — once per material opened.
+  useEffect(() => {
+    if (!material) return;
+    trackViewItem(
+      resolveCartItem({ productId: material.id, size: null, color: material.colors?.[0] ?? null, quantity: 1, kind: "material" })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [material?.id]);
 
   if (!material) {
     return (

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../hooks/useLanguage.js";
 import { BUSINESS } from "../../data/business.js";
+import { openCookieSettings } from "../../utils/analytics.js";
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -41,6 +42,16 @@ const Footer = () => {
               {l.label}
             </Link>
           ))}
+          {/* Re-opens the cookie bar so consent (Google Analytics) can be
+              changed or withdrawn at any time — GDPR requires withdrawing
+              to be as easy as giving consent. */}
+          <button
+            type="button"
+            onClick={openCookieSettings}
+            className="text-[10px] uppercase tracking-widest2 text-black/50 hover:text-black"
+          >
+            {t("footer.cookieSettings")}
+          </button>
         </div>
         <span className="flex items-center gap-2 text-[10px] uppercase tracking-widest2 text-black/40 whitespace-nowrap">
           <span>

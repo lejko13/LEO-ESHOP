@@ -14,6 +14,7 @@ export const resolveCartItem = (item) => {
     return {
       kind: "material",
       id: material.id,
+      category: "material",
       code: material.code,
       name: material.name,
       image: material.images?.front,
@@ -32,6 +33,7 @@ export const resolveCartItem = (item) => {
   return {
     kind: "product",
     id: product.id,
+    category: product.category,
     code: product.code,
     name: product.name,
     // Show the photo matching the color that was actually added to the

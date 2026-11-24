@@ -1,12 +1,21 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../hooks/useCart.js";
 import { useLanguage } from "../hooks/useLanguage.js";
 import { resolveCartItem } from "../utils/cartItem.js";
 import { formatPrice } from "../utils/formatPrice.js";
+import { trackViewCart } from "../utils/analytics.js";
 
 const Cart = () => {
   const { items, removeItem } = useCart();
   const { t, pick, colorLabel, language } = useLanguage();
+
+  // GA4 "view_cart" — once when the cart page is opened (not again when
+  // items are removed while on it).
+  useEffect(() => {
+    trackViewCart(items.map(resolveCartItem).filter(Boolean));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (items.length === 0) {
     return (

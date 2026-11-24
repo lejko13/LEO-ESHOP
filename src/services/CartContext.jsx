@@ -1,4 +1,6 @@
 import { createContext, useEffect, useMemo, useState } from "react";
+import { resolveCartItem } from "../utils/cartItem.js";
+import { trackAddToCart, trackRemoveFromCart } from "../utils/analytics.js";
 
 export const CartContext = createContext(null);
 
@@ -57,6 +59,9 @@ export const CartProvider = ({ children }) => {
       }
       return [...prev, { productId, size, color, quantity, kind }];
     });
+    // Outside the setItems updater on purpose — StrictMode runs updaters
+    // twice in dev, which would double-count the GA event.
+    trackAddToCart(resolveCartItem({ productId, size, color, quantity, kind }));
     setNotification({
       id: `${Date.now()}-${Math.random()}`,
       productId,
@@ -67,6 +72,14 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeItem = (productId, size, color = null, kind = "product") => {
+    const removed = items.find(
+      (i) =>
+        i.productId === productId &&
+        i.size === size &&
+        i.color === color &&
+        i.kind === kind
+    );
+    if (removed) trackRemoveFromCart(resolveCartItem(removed));
     setItems((prev) =>
       prev.filter(
         (i) =>

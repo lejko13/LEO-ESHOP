@@ -19,6 +19,7 @@ export const translations = {
       contact: "Contact",
       terms: "Terms",
       privacy: "Privacy",
+      cookieSettings: "Cookies",
       orderStatus: "Order Status",
       copyright: "LEO FUDALY",
     },
@@ -229,7 +230,7 @@ export const translations = {
     },
     cookies: {
       title: "Cookies",
-      body: "This site uses cookies to make the store work (cart, language, preferences).",
+      body: "We use necessary cookies to make the store work (cart, language). With your consent, we also use Google Analytics to see how the store is used.",
       learnMore: "Learn more",
       accept: "Accept",
       decline: "Decline",
@@ -268,6 +269,7 @@ export const translations = {
       contact: "Kontakt",
       terms: "Podmienky",
       privacy: "Súkromie",
+      cookieSettings: "Cookies",
       orderStatus: "Stav objednávky",
       copyright: "LEO FUDALY",
     },
@@ -478,7 +480,7 @@ export const translations = {
     },
     cookies: {
       title: "Cookies",
-      body: "Táto stránka používa cookies, aby eshop fungoval (košík, jazyk, nastavenia).",
+      body: "Nevyhnutné cookies používame, aby eshop fungoval (košík, jazyk). S vaším súhlasom používame aj Google Analytics, aby sme videli, ako sa eshop používa.",
       learnMore: "Zistiť viac",
       accept: "Prijať",
       decline: "Odmietnuť",

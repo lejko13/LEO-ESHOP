@@ -1,36 +1,38 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../hooks/useLanguage.js";
+import {
+  applyConsent,
+  CONSENT_STORAGE_KEY,
+  getStoredConsent,
+  OPEN_COOKIE_SETTINGS_EVENT,
+} from "../../utils/analytics.js";
 import Button from "./Button.jsx";
-
-const STORAGE_KEY = "yzy-cookie-consent";
 
 // A real decision (not a dark-pattern "OK" button) — "Accept" and "Decline"
 // get equal visual weight, same as Button's primary/secondary variants used
-// everywhere else on the site. Persisted to localStorage only (no actual
-// cookie-category logic exists yet since there's no analytics/ads script on
-// the site to gate — this banner exists to satisfy the legal notice
-// requirement; wire real script-blocking to `consent === "accepted"` if/when
-// you add something like Google Analytics).
+// everywhere else on the site. The choice is persisted to localStorage and
+// gates Google Analytics: nothing analytics-related loads until "Accept"
+// (see utils/analytics.js). The footer's "Cookie settings" link re-opens
+// this bar so consent can be changed or withdrawn at any time.
 const CookieConsent = () => {
   const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (!stored) setVisible(true);
-    } catch {
-      setVisible(true);
-    }
+    if (!getStoredConsent()) setVisible(true);
+    const reopen = () => setVisible(true);
+    window.addEventListener(OPEN_COOKIE_SETTINGS_EVENT, reopen);
+    return () => window.removeEventListener(OPEN_COOKIE_SETTINGS_EVENT, reopen);
   }, []);
 
   const decide = (value) => {
     try {
-      window.localStorage.setItem(STORAGE_KEY, value);
+      window.localStorage.setItem(CONSENT_STORAGE_KEY, value);
     } catch {
       // ignore — banner just won't persist across reloads
     }
+    applyConsent(value);
     setVisible(false);
   };
 
